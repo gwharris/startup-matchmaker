@@ -7,7 +7,7 @@ Final Project for Collaborating Remotely: Build Software From Anywhere, Fall 202
 * [David Leguisamo](https://github.com/dleguisamo)
 * [Vee Nis Ling](https://github.com/vnling)
 * [Duoji Jiang](https://github.com/dji2001)
-* Brian Hsieh
+* [Brian Hsieh](https://github.com/bhsieh74)
 
 Instructors:
 * [Evan Korth](https://github.com/evankorth)
