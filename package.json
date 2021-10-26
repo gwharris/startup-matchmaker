@@ -1,0 +1,19 @@
+{
+  "name": "startup-matchmaker",
+  "version": "1.0.0",
+  "description": "Final Project for Collaborating Remotely: Build Software From Anywhere, Fall 2021.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gwharris/startup-matchmaker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gwharris/startup-matchmaker/issues"
+  },
+  "homepage": "https://github.com/gwharris/startup-matchmaker#readme"
+}
