@@ -1,12 +1,11 @@
-import React from "react";
+import React from 'react'
 
-function Homepage() {
-    return (
-      <div className="App">
-        Hello world.
-  
-      </div>
-    );
-  }
+const homepage = () => {
+  return (
+    <div>
+      
+    </div>
+  )
+}
 
-  export default Homepage;
+export default homepage
