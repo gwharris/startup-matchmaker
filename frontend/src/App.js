@@ -1,6 +1,8 @@
 import React from "react";
 import { Switch, Route, Link } from "react-router-dom";
+
 import "bootstrap/dist/css/bootstrap.min.css"; //install bootstrap dependency "npm install bootstrap"
+import './index.css';
 
 import {Button} from 'react-bootstrap';
 
@@ -11,8 +13,9 @@ import {Button} from 'react-bootstrap';
 function App() {
   return (
     <div className="App">
+
       <header className="App-header">
-        <Button>Test</Button>
+        <Button className="button">Test</Button>
       </header>
 
     </div>
