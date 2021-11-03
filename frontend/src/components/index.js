@@ -1,0 +1,4 @@
+//import any components made here, and export them as well. This will make importing them in App.js much easier
+import HomePage from './homepage'
+
+export { HomePage }
