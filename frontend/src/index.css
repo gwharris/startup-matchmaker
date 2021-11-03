@@ -1,18 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
-/* .button {
-  display: inline-block !important;
-  background: #000 !important;
-  min-height: 50px !important;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  margin: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 15px;
-  font-family: inherit;
-} */
 
 /* Parent for Rows and Cols */
 .hpContainer {
@@ -31,6 +17,7 @@
   flex-wrap: wrap;
   align-content: center;
   justify-content: center;
+  flex-direction: column;
   background-color: #734cf9;
   height: 100%;
   
@@ -41,6 +28,7 @@
   flex-wrap: wrap;
   align-content: center;
   justify-content: center;
+  flex-direction: column;
   background-color: #edf2f4;
   height: 100%;
 }
@@ -82,4 +70,24 @@
   text-align: center !important;
   line-height: 90px !important;
   
+}
+
+.startupQuestion{
+  width: 334px;
+  height:87px;
+  text-align: center;
+  background-color: #734cf9;
+  color: #edf2f4 !important;
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 50px !important;
+}
+
+.personQuestion {
+  width: 334px;
+  height:87px;
+  text-align: center;
+  background-color: #edf2f4;
+  color: #734cf9 !important;
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 50px !important;
 }
