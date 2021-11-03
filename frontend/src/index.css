@@ -1,6 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
-
-.button {
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+/* .button {
   display: inline-block !important;
   background: #000 !important;
   min-height: 50px !important;
@@ -13,4 +12,69 @@
   text-decoration: none;
   font-size: 15px;
   font-family: inherit;
+} */
+
+.leftCol {
+  background-color: #734cf9;
+  height: 100%;
+  
+}
+
+.rightCol {
+  background-color: #edf2f4;
+}
+
+.hpRow {
+  max-height: 100%;
+  height: 100%;
+}
+
+.hpContainer {
+  max-width: 100%;
+  max-height: 100%;
+  height: 100vh; 
+  /*vh https://stackoverflow.com/questions/1575141/how-to-make-a-div-100-height-of-the-browser-window?rq=1
+  container full height of the browser window. Then all other child's heights need to be specified as needed.
+  In this case (homepage). Container is full height of window, row is set to 100, then finally the column is set to 100
+  */
+}
+
+.startupButton {
+  position: relative !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 334px !important;
+  height: 87px !important;
+  left: 193px !important;
+  top: 507px !important;
+  background: #edf2f4 !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
+
+  border: none !important;
+  color: #734cf9 !important;
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 50px !important;
+  text-align: center !important;
+  line-height: 90px !important;
+}
+
+.personButton {
+
+  position: relative !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 334px !important;
+  height: 87px !important;
+  left: 193px !important;
+  top: 507px !important;
+  background: #734cf9 !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
+
+  border: none !important;
+  color: #edf2f4 !important;
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 50px !important;
+  text-align: center !important;
+  line-height: 90px !important;
+  
 }
