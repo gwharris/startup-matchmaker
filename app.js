@@ -6,7 +6,11 @@ var express = require("express"),
     passportLocalMongoose = require("passport-local-mongoose"),
     User = require("./models/user");
 
-mongoose.connect("mongodb://localhost/auth_demo_app");
+const uri = process.env.MONGODB_URI;
+
+console.log(uri);
+
+mongoose.connect(uri);
  
 var app = express();
 app.set("view engine", "html");
@@ -26,15 +30,10 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
  
-//=====================
-// ROUTES
-//=====================
- 
-// Showing login page
 app.get("/", function (req, res) {
     res.render("index");
 });
- 
+
 // Showing home page
 app.get("/homepage", isLoggedIn, function (req, res) {
     res.render("homepage");
@@ -80,7 +79,7 @@ app.get("/logout", function (req, res) {
     req.logout();
     res.redirect("/");
 });
- 
+
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) return next();
     res.redirect("/login");
