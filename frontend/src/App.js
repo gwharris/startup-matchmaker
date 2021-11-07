@@ -1,8 +1,6 @@
 import React from "react";
 //import { Switch, Route, Link } from "react-router-dom";
-
 import "bootstrap/dist/css/bootstrap.min.css"; //install bootstrap dependency "npm install bootstrap"
-import './index.css';
 
 //import components
 import { HomePage } from "./components";
