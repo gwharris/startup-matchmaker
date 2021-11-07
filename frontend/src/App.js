@@ -3,7 +3,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; //install bootstrap dependency "npm install bootstrap"
 
 //import components
-import { HomePage } from "./components";
+import { HomePage, Register, Login } from "./components";
 
 //ENTRY POINT FOR APPLICATION
 function App() {
