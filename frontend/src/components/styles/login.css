@@ -26,6 +26,7 @@
     flex-wrap: wrap;
     align-content: center;
     justify-content: center;
+    flex-direction: column;
     background-color: #735cf9;
     height: 100%;
 }
