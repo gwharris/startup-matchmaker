@@ -2,5 +2,6 @@
 import HomePage from './homepage'
 import Register from './register'
 import Login from './login'
+import Matches from './matches'
 
-export { HomePage, Register, Login }
+export { HomePage, Register, Login, Matches }
