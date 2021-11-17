@@ -35,19 +35,20 @@ app.options('*', cors());
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static(path.resolve(__dirname, '../frontend/src')));
-
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.get("/", function(req, res) {
-    res.send("hello world");
-});
+// function I use just to check if the backend is working
+// app.get("/", function(req, res) {
+//     res.send("hello world");
+// });
 
-app.get("/api/index", function (req, res) {
-    res.render("index");
-});
+// since we don't need to render anything from the backend these should be gone fairly soon
+
+// app.get("/api/index", function (req, res) {
+//     res.render("index");
+// });
 
 // Showing home page
 // app.get("/api/homepage", isLoggedIn, function (req, res) {
@@ -61,7 +62,6 @@ app.get("/api/index", function (req, res) {
 
 // Handling user signup
 app.post("/api/register", function (req, res) {
-    console.log(req.body);
     var username = req.body.username;
     var password = req.body.password;
     User.register(new User({ username: username }),
@@ -73,9 +73,7 @@ app.post("/api/register", function (req, res) {
 
             passport.authenticate("local")(
                 req, res, function () {
-                    // res.render("/api/homepage");
                     console.log('register request!!!');
-                    console.log(req.body);
                     retStatus = 'Success';
                     res.send({
                         retStatus: retStatus,
@@ -85,22 +83,20 @@ app.post("/api/register", function (req, res) {
         });
 });
 
+// deprecated because react handles rendering
+
 // Showing login form
-app.get("/api/login", function (req, res) {
-    res.render("login");
-});
+// app.get("/api/login", function (req, res) {
+//     res.render("login");
+// });
 
 //Handling user login
 //currently this works if the user can be authorized but not otherwise
+// remember to handle failure redirect
 app.post("/api/login",
-    // passport.authenticate("local", {
-    //     successRedirect: "/api/homepage",
-    //     failureRedirect: "/api/register"
-    // }),
     passport.authenticate('local'),
     function (req, res) {
         console.log('request!!!');
-        console.log(req.body);
         res.send({
             redirectTo: './../matches',
         });
@@ -112,16 +108,19 @@ app.post("/api/login",
 //     res.redirect("/api/index");
 // });
 
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../startup-matchmaker/frontend/src', 'index.js'));
-});
-
 // function isLoggedIn(req, res, next) {
 //     if (req.isAuthenticated()) return next();
 //     res.redirect("/api/login");
 // }
 
-var port = process.env.PORT || 5000;
+var port = process.env.PORT || 8080;
+
+app.use('/', express.static(path.resolve(__dirname, "./frontend/build")));
+
+app.get("*", function (request, response) {
+  response.sendFile(path.resolve(__dirname, "./frontend/build", "index.html"));
+});
+
 app.listen(port, function () {
     console.log("Server Has Started!");
 });
