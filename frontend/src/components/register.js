@@ -58,8 +58,8 @@ class Register extends React.Component {
                             </Form.Group>
 
                             <Form.Group className='rpEmailForm'>
-                                <FloatingLabel label="email">
-                                    <Form.Control className="rpEmailBorder" onChange={e => this.handleEmailChange(e)} type="email" placeholder="email" />
+                                <FloatingLabel label="username">
+                                    <Form.Control className="rpEmailBorder" onChange={e => this.handleEmailChange(e)} type="username" placeholder="username" />
                                 </FloatingLabel>
                             </Form.Group>
 
