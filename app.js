@@ -4,88 +4,124 @@ var express = require("express"),
     bodyParser = require("body-parser"),
     LocalStrategy = require("passport-local"),
     passportLocalMongoose = require("passport-local-mongoose"),
-    User = require("./models/user");
+    User = require("./models/user"),
+    cors = require('cors'),
+    path = require('path'),
+    dotenv = require("dotenv");
 
+dotenv.config();
 const uri = process.env.MONGODB_URI;
+mongoose.connect(uri, () =>{console.log("database connected!")});
 
-console.log(uri);
-
-mongoose.connect(uri);
- 
 var app = express();
-app.set("view engine", "html");
-app.engine('html', require('ejs').renderFile);
-app.use(bodyParser.urlencoded({ extended: true }));
- 
+app.use(express.json());
+
 app.use(require("express-session")({
     secret: "Rusty is a dog",
     resave: false,
     saveUninitialized: false
 }));
- 
+
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
+
+app.use(cors());
+app.options('*', cors());
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(express.static(path.resolve(__dirname, '../frontend/src')));
 
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
- 
-app.get("/", function (req, res) {
+
+app.get("/", function(req, res) {
+    res.send("hello world");
+});
+
+app.get("/api/index", function (req, res) {
     res.render("index");
 });
 
 // Showing home page
-app.get("/homepage", isLoggedIn, function (req, res) {
-    res.render("homepage");
-});
- 
+// app.get("/api/homepage", isLoggedIn, function (req, res) {
+//     res.render("homepage");
+// });
+
 // Showing register form
-app.get("/register", function (req, res) {
-    res.render("register");
-});
- 
+// app.get("/api/register", function (req, res) {
+//     res.render("register");
+// });
+
 // Handling user signup
-app.post("/register", function (req, res) {
-    var username = req.body.username
-    var password = req.body.password
+app.post("/api/register", function (req, res) {
+    console.log(req.body);
+    var username = req.body.username;
+    var password = req.body.password;
     User.register(new User({ username: username }),
-            password, function (err, user) {
-        if (err) {
-            console.log(err);
-            return res.render("register");
-        }
- 
-        passport.authenticate("local")(
-            req, res, function () {
-            res.render("homepage");
+        password, function (err, user) {
+            if (err) {
+                console.log(err);
+                return res.render("register");
+            }
+
+            passport.authenticate("local")(
+                req, res, function () {
+                    // res.render("/api/homepage");
+                    console.log('register request!!!');
+                    console.log(req.body);
+                    retStatus = 'Success';
+                    res.send({
+                        retStatus: retStatus,
+                        redirectTo: './../matches',
+                    });
+                });
         });
-    });
-});
- 
-//Showing login form
-app.get("/login", function (req, res) {
-    res.render("login");
-});
- 
-//Handling user login
-app.post("/login", passport.authenticate("local", {
-    successRedirect: "/homepage",
-    failureRedirect: "/login"
-}), function (req, res) {
-});
- 
-//Handling user logout
-app.get("/logout", function (req, res) {
-    req.logout();
-    res.redirect("/");
 });
 
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) return next();
-    res.redirect("/login");
-}
- 
-var port = process.env.PORT || 3000;
+// Showing login form
+app.get("/api/login", function (req, res) {
+    res.render("login");
+});
+
+//Handling user login
+//currently this works if the user can be authorized but not otherwise
+app.post("/api/login",
+    // passport.authenticate("local", {
+    //     successRedirect: "/api/homepage",
+    //     failureRedirect: "/api/register"
+    // }),
+    passport.authenticate('local'),
+    function (req, res) {
+        console.log('request!!!');
+        console.log(req.body);
+        res.send({
+            redirectTo: './../matches',
+        });
+    });
+
+//Handling user logout
+// app.get("/api/logout", function (req, res) {
+//     req.logout();
+//     res.redirect("/api/index");
+// });
+
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../startup-matchmaker/frontend/src', 'index.js'));
+});
+
+// function isLoggedIn(req, res, next) {
+//     if (req.isAuthenticated()) return next();
+//     res.redirect("/api/login");
+// }
+
+var port = process.env.PORT || 5000;
 app.listen(port, function () {
     console.log("Server Has Started!");
 });
