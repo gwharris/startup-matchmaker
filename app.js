@@ -100,7 +100,6 @@ app.post("/api/login",
     passport.authenticate('local'),
     function (req, res) {
         console.log('request!!!');
-        console.log(req.body);
         res.send({
             redirectTo: './../matches',
         });
@@ -121,7 +120,7 @@ app.get('*', (req, res) => {
 //     res.redirect("/api/login");
 // }
 
-var port = process.env.PORT || 5000;
+var port = process.env.PORT || 8080;
 app.listen(port, function () {
     console.log("Server Has Started!");
 });
