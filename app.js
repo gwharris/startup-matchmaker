@@ -41,6 +41,10 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.get("/", function(req, res) {
+    res.send("hello world");
+});
+
 app.get("/api/index", function (req, res) {
     res.render("index");
 });
@@ -57,8 +61,9 @@ app.get("/api/index", function (req, res) {
 
 // Handling user signup
 app.post("/api/register", function (req, res) {
-    var username = req.body.username
-    var password = req.body.password
+    console.log(req.body);
+    var username = req.body.username;
+    var password = req.body.password;
     User.register(new User({ username: username }),
         password, function (err, user) {
             if (err) {
@@ -69,11 +74,12 @@ app.post("/api/register", function (req, res) {
             passport.authenticate("local")(
                 req, res, function () {
                     // res.render("/api/homepage");
-                    console.log('request!!!');
+                    console.log('register request!!!');
+                    console.log(req.body);
                     retStatus = 'Success';
                     res.send({
                         retStatus: retStatus,
-                        redirectTo: './../',
+                        redirectTo: './../matches',
                     });
                 });
         });
@@ -85,6 +91,7 @@ app.get("/api/login", function (req, res) {
 });
 
 //Handling user login
+//currently this works if the user can be authorized but not otherwise
 app.post("/api/login",
     // passport.authenticate("local", {
     //     successRedirect: "/api/homepage",
@@ -93,6 +100,7 @@ app.post("/api/login",
     passport.authenticate('local'),
     function (req, res) {
         console.log('request!!!');
+        console.log(req.body);
         res.send({
             redirectTo: './../matches',
         });

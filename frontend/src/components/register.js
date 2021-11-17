@@ -8,7 +8,7 @@ class Register extends React.Component {
         super(props);
         this.state = {
             name: '',
-            email: '',
+            username: '',
             password: '',
         };
     }
@@ -17,17 +17,17 @@ class Register extends React.Component {
         this.setState({ name: event.target.value });
     }
     handleEmailChange = (event) => {
-        this.setState({ email: event.target.value });
+        this.setState({ username: event.target.value });
     }
     handlePasswordChange = (event) => {
         this.setState({ password: event.target.value });
     }
 
     handleSubmit = (event) => {
-        
-        fetch('/api/login', {
+        console.log(JSON.stringify(this.state));
+        fetch('/api/register', {
             method: 'POST',
-            dataType: 'json',
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state)
         }).then(function (response) {
             console.log(response)
@@ -39,8 +39,6 @@ class Register extends React.Component {
         }).catch((error) => {
             console.error('Error:', error);
         });
-
-        event.preventDefault();
 
         event.preventDefault();
     }

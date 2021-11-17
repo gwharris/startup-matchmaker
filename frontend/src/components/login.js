@@ -20,9 +20,10 @@ class Login extends React.Component {
     }
 
     handleSubmit = (event) => {
-
+        console.log(JSON.stringify(this.state));
         fetch('/api/login', {
             method: 'POST',
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state)
         }).then(function (response) {
             console.log(response)
