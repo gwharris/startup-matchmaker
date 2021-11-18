@@ -10,7 +10,7 @@ const express = require("express"),
 
 dotenv.config();
 const uri = process.env.MONGODB_URI;
-mongoose.connect(uri);
+mongoose.connect(uri, () =>{console.log("database connected!")});
 
 const app = express();
 app.use(express.json());
