@@ -47,7 +47,7 @@ passport.deserializeUser(User.deserializeUser());
 app.post("/api/register", function (req, res) {
     var username = req.body.username;
     var password = req.body.password;
-    User.register(new User({ username: username }),
+    User.register(new User({username: username }),
         password, function (err, user) {
             if (err) {
                 console.log(err);
@@ -59,7 +59,7 @@ app.post("/api/register", function (req, res) {
                     retStatus = 'Success';
                     res.send({
                         retStatus: retStatus,
-                        redirectTo: './../matches',
+                        redirectTo: './../login',
                     });
                 });
         });

@@ -48,8 +48,8 @@ class Login extends React.Component {
                         <div className="logIn">Log In</div>
                         <Form>
                             <Form.Group className="emailForm">
-                                <FloatingLabel label="email">
-                                    <Form.Control onChange={e => this.handleEmailChange(e)} className="emailBorder" type="email" placeholder="email" />
+                                <FloatingLabel label="username">
+                                    <Form.Control onChange={e => this.handleEmailChange(e)} className="emailBorder" type="username" placeholder="username" />
                                 </FloatingLabel>
                             </Form.Group>
 
