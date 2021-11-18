@@ -1,19 +1,18 @@
-var express = require("express"),
+const express = require("express"),
     mongoose = require("mongoose"),
     passport = require("passport"),
-    bodyParser = require("body-parser"),
     LocalStrategy = require("passport-local"),
-    passportLocalMongoose = require("passport-local-mongoose"),
     User = require("./models/user"),
     cors = require('cors'),
     path = require('path'),
-    dotenv = require("dotenv");
+    dotenv = require("dotenv"),
+    ObjectId = require("mongodb").ObjectId;
 
 dotenv.config();
 const uri = process.env.MONGODB_URI;
 mongoose.connect(uri, () =>{console.log("database connected!")});
 
-var app = express();
+const app = express();
 app.use(express.json());
 
 app.use(require("express-session")({
@@ -44,22 +43,6 @@ passport.deserializeUser(User.deserializeUser());
 //     res.send("hello world");
 // });
 
-// since we don't need to render anything from the backend these should be gone fairly soon
-
-// app.get("/api/index", function (req, res) {
-//     res.render("index");
-// });
-
-// Showing home page
-// app.get("/api/homepage", isLoggedIn, function (req, res) {
-//     res.render("homepage");
-// });
-
-// Showing register form
-// app.get("/api/register", function (req, res) {
-//     res.render("register");
-// });
-
 // Handling user signup
 app.post("/api/register", function (req, res) {
     var username = req.body.username;
@@ -70,9 +53,8 @@ app.post("/api/register", function (req, res) {
                 console.log(err);
                 return res.render("register");
             }
-
             passport.authenticate("local")(
-                req, res, function () {
+                function (req, res) {
                     console.log('register request!!!');
                     retStatus = 'Success';
                     res.send({
@@ -82,13 +64,6 @@ app.post("/api/register", function (req, res) {
                 });
         });
 });
-
-// deprecated because react handles rendering
-
-// Showing login form
-// app.get("/api/login", function (req, res) {
-//     res.render("login");
-// });
 
 //Handling user login
 //currently this works if the user can be authorized but not otherwise
@@ -101,6 +76,30 @@ app.post("/api/login",
             redirectTo: './../matches',
         });
     });
+
+//  get a user's profile information
+app.get("/api/getProfile", function (req, res) {
+    var myquery = { _id: ObjectId(req.user._id) };
+    User.findOne(myquery, function (err, result) {
+        if (err) throw err;
+        res.json(result);
+    });
+});
+
+// edit a user's profile
+app.post("/api/editProfile", function (req, res) {
+    var myquery = { _id: ObjectId(req.user._id) };
+    User.updateOne(myquery,
+        {
+            bio: req.body.bio,
+            skills: req.body.skills,
+            experience: req.body.experience
+        },
+        function (err, result) {
+            if (err) throw err;
+            res.json(result);
+        });
+});
 
 //Handling user logout
 // app.get("/api/logout", function (req, res) {
@@ -118,7 +117,7 @@ var port = process.env.PORT || 8080;
 app.use('/', express.static(path.resolve(__dirname, "./frontend/build")));
 
 app.get("*", function (request, response) {
-  response.sendFile(path.resolve(__dirname, "./frontend/build", "index.html"));
+    response.sendFile(path.resolve(__dirname, "./frontend/build", "index.html"));
 });
 
 app.listen(port, function () {

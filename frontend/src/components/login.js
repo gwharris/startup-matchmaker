@@ -27,7 +27,7 @@ class Login extends React.Component {
         }).then(function (response) {
             console.log(response)
             return response.json();
-        }).then(data => {
+        }).then(function (data) {
             if (data.redirectTo) {
                 window.location = data.redirectTo;
             }

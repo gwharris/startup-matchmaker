@@ -3,5 +3,6 @@ import HomePage from './homepage'
 import Register from './register'
 import Login from './login'
 import Matches from './matches'
+import Profile from './profile'
 
-export { HomePage, Register, Login, Matches }
+export { HomePage, Register, Login, Matches, Profile }
