@@ -3,7 +3,7 @@ import './styles/register.css';
 import { Button, Container, Row, Col, Form, FloatingLabel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-class Profile extends React.Component {
+class PersonProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -98,4 +98,4 @@ class Profile extends React.Component {
     }
 }
 
-export default Profile
+export default PersonProfile

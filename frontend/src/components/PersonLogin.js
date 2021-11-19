@@ -3,7 +3,7 @@ import './styles/login.css';
 import { Button, Container, Row, Col, Form, FloatingLabel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-class Login extends React.Component {
+class PersonLogin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -48,8 +48,8 @@ class Login extends React.Component {
                         <div className="logIn">Log In</div>
                         <Form>
                             <Form.Group className="emailForm">
-                                <FloatingLabel label="username">
-                                    <Form.Control onChange={e => this.handleEmailChange(e)} className="emailBorder" type="username" placeholder="username" />
+                                <FloatingLabel label="email">
+                                    <Form.Control onChange={e => this.handleEmailChange(e)} className="emailBorder" type="email" placeholder="email" />
                                 </FloatingLabel>
                             </Form.Group>
 
@@ -62,7 +62,7 @@ class Login extends React.Component {
                             <Button onClick={e => this.handleSubmit(e)} className="loginButton">login</Button>
 
                         </Form>
-                        <Link to="/register">
+                        <Link to="/personregister">
                             <Button className="toRegister">Register</Button>
                         </Link>
 
@@ -79,4 +79,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login
+export default PersonLogin

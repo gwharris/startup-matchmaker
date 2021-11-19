@@ -1,8 +1,16 @@
 //import any components made here, and export them as well. This will make importing them in App.js much easier
-import HomePage from './homepage'
-import Register from './register'
-import Login from './login'
-import Matches from './matches'
-import Profile from './profile'
+import Landing from './landing'
 
-export { HomePage, Register, Login, Matches, Profile }
+import PersonRegister from './PersonRegister'
+import StartupRegister from './StartupRegister'
+
+import PersonLogin from './PersonLogin'
+import StartupLogin from './StartupLogin'
+
+import PersonProfile from './PersonProfile'
+//user matches
+
+import StartupProfile from './StartupProfile.js'
+//startup matches
+
+export { Landing, PersonRegister, StartupRegister, PersonLogin, StartupLogin, PersonProfile, StartupProfile}

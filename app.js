@@ -59,7 +59,7 @@ app.post("/api/register", function (req, res) {
                     retStatus = 'Success';
                     res.send({
                         retStatus: retStatus,
-                        redirectTo: './../login',
+                        redirectTo: './../personlogin',
                     });
                 });
         });

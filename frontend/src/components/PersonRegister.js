@@ -3,7 +3,7 @@ import './styles/register.css';
 import { Button, Container, Row, Col, Form, FloatingLabel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-class Register extends React.Component {
+class PersonRegister extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -58,8 +58,8 @@ class Register extends React.Component {
                             </Form.Group>
 
                             <Form.Group className='rpEmailForm'>
-                                <FloatingLabel label="username">
-                                    <Form.Control className="rpEmailBorder" onChange={e => this.handleEmailChange(e)} type="username" placeholder="username" />
+                                <FloatingLabel label="email">
+                                    <Form.Control className="rpEmailBorder" onChange={e => this.handleEmailChange(e)} type="email" placeholder="email" />
                                 </FloatingLabel>
                             </Form.Group>
 
@@ -82,4 +82,4 @@ class Register extends React.Component {
     }
 }
 
-export default Register
+export default PersonRegister
