@@ -1,9 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './styles/register.css';
 import { Button, Container, Row, Col, Form, FloatingLabel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 
 const StartupRegister = () => {
+
+    const [ registerStartupName, setRegisterStartupName ] = useState("")
+    const [ registerStartupEmail, setRegisterEmail ] = useState("")
+    const [ registerStartupPassword, setRegisterPassword ] = useState("")
+
+    const doStartupRegister = () => {
+        axios({
+            method: "POST",
+            data: {
+                startup_name: registerStartupName,
+                startup_email: registerStartupEmail,
+                startup_password: registerStartupPassword,
+            },
+            withCredentials: true,
+            url: "http://localhost:4000/startupregister",
+        }).then((res) => console.log(res));
+
+    };
     return (
         <Container className='rgContainer'>
             <Row className='row'>
@@ -13,24 +32,24 @@ const StartupRegister = () => {
 
                         <Form.Group className="nameForm">
                             <FloatingLabel label="startup name">
-                                <Form.Control className="nameBorder" type="name" placeholder="startup name" />
+                                <Form.Control onChange={e => setRegisterStartupName(e.target.value)} className="nameBorder" type="name" placeholder="startup name" />
                             </FloatingLabel>
                         </Form.Group>
 
                         <Form.Group className='rpEmailForm'>
                             <FloatingLabel label="email">
-                                <Form.Control className="rpEmailBorder" type="email" placeholder="email" />
+                                <Form.Control onChange={e => setRegisterEmail(e.target.value)} className="rpEmailBorder" type="email" placeholder="email" />
                             </FloatingLabel>
                         </Form.Group>
 
                         <Form.Group className="rpPasswordForm">
                             <FloatingLabel label="password">
-                                <Form.Control className="rpPasswordBorder" type="password" placeholder="password" />
+                                <Form.Control onChange={e => setRegisterPassword(e.target.value)} className="rpPasswordBorder" type="password" placeholder="password" />
                             </FloatingLabel>
                         </Form.Group>
 
                         <Link to="/startuplogin">
-                            <Button className='createAcctButton'>Create Account</Button>
+                            <Button onClick={doStartupRegister} className='createAcctButton'>Create Account</Button>
                         </Link>
 
                     </Form>

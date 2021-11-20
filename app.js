@@ -1,3 +1,94 @@
+const mongoose = require('mongoose');
+const express = require('express');
+const cors = require('cors');
+const passport = require('passport');
+const passportLocal = require('passport-local');
+const cookieParser = require('cookie-parser');
+const bcrypt = require('bcryptjs');
+const session = require('express-session');
+const dotenv = require('dotenv')
+const User = require('./models/user')
+const Startup = require('./models/startup');
+const { MongoBatchReExecutionError } = require('mongodb');
+
+const app = express();
+
+dotenv.config();
+const uri = process.env.MONGODB_URI;
+mongoose.connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}, ()=> {
+    console.log("database connected yuh")
+});
+
+//Middleware
+app.use(cors ({
+    origin: 'http://localhost:3000', // react app...local for now deploy to heroku later?
+    credentials: true
+}));
+
+app.use(express.json());
+app.use(session({
+    secret: "secretcode",
+    resave: true,
+    saveUninitialized: true
+}));
+
+app.use(cookieParser("secretcode"));
+
+//routes
+app.post("/personlogin", (req, res) =>{
+    console.log(req.body);
+});
+
+app.post("/startuplogin", (req, res) =>{
+    console.log(req.body);
+});
+
+app.post("/personregister", (req, res) =>{
+    User.findOne({email: req.body.email}, async (err, doc) =>{
+        if (err) throw err;
+        if (doc) res.send("Person already exists");
+        if (!doc) {
+            const newUser = new User({
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.password,
+            });
+            await newUser.save();
+            res.send("User/(person) Created!");
+        }
+    });
+});
+
+// handle registration 
+app.post("/startupregister", (req, res) =>{
+    Startup.findOne({startup_email: req.body.startup_email}, async (err, doc) =>{
+        if (err) throw err;
+        if (doc) res.send("Startup already exists");
+        if (!doc) {
+            const hashedPassword = await bcrypt.hash(req.body.startup_password, 10)
+            const newStartup = new Startup({
+                startup_name: req.body.startup_name,
+                startup_email: req.body.startup_email,
+                startup_password: hashedPassword,
+            });
+            await newStartup.save();
+            res.send("Startup Created!");
+        }
+    }); 
+});
+
+app.get("/person", (req, res) => {});
+app.get("/startup", (req, res) => {});
+
+//start server
+app.listen(4000, () =>{
+    console.log('Server started yuh');
+})
+
+/*
 const express = require("express"),
     mongoose = require("mongoose"),
     passport = require("passport"),
@@ -123,3 +214,4 @@ app.get("*", function (request, response) {
 app.listen(port, function () {
     console.log("Server Has Started!");
 });
+*/

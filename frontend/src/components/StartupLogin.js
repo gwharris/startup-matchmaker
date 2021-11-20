@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './styles/login.css';
 import { Button, Container, Row, Col, Form, FloatingLabel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios'
 const StartupLogin = () => {
+    const [loginStartupEmail, setLoginStartupEmail ] = useState("")
+    const [ startupLoginPassword, setStartupLoginPassword ] = useState("")
+    const doStartupLogin = () => {
+        axios({
+            method: "POST",
+            data: {
+                startup_email: loginStartupEmail,
+                startup_password: startupLoginPassword,
+            },
+            withCredentials: true,
+            url: "http://localhost:4000/startuplogin",
+        }).then((res) => console.log(res))
+
+    }
     return (
         <Container className='lgContainer'>
             <Row className='row'>
@@ -12,17 +26,17 @@ const StartupLogin = () => {
                     <Form>
                         <Form.Group className="emailForm">
                             <FloatingLabel label="username">
-                                <Form.Control className="emailBorder" type="username" placeholder="username" />
+                                <Form.Control onChange={e => setLoginStartupEmail(e.target.value)} className="emailBorder" type="username" placeholder="username" />
                             </FloatingLabel>
                         </Form.Group>
 
 
                         <Form.Group className="passwordForm">
                             <FloatingLabel label="password">
-                                <Form.Control className="passwordBorder" type="password" placeholder="password" />
+                                <Form.Control onChange={e => setStartupLoginPassword(e.target.value)} className="passwordBorder" type="password" placeholder="password" />
                             </FloatingLabel>
                         </Form.Group>
-                        <Button className="loginButton">login</Button>
+                        <Button onClick={doStartupLogin} className="loginButton">login</Button>
 
                     </Form>
                     <Link to="/startupregister">
