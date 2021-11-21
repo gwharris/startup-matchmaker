@@ -1,8 +1,68 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './styles/register.css';
 import { Button, Container, Row, Col, Form, FloatingLabel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
+const PersonRegister = () => {
+
+    const [ registerPersonName, setPersonName ] = useState("")
+    const [ registerPersonEmail, setRegisterPersonEmail ] = useState("")
+    const [ registerPersonPassword, setRegisterPersonPassword ] = useState("")
+
+    const doPersonRegister = () => {
+        axios({
+            method: "POST",
+            data: {
+                name: registerPersonName,
+                email: registerPersonEmail,
+                password: registerPersonPassword,
+            },
+            withCredentials: true,
+            url: "http://localhost:4000/personregister",
+        }).then((res) => console.log(res));
+
+    }
+    return (
+        <Container className='rgContainer'>
+            <Row className='row'>
+                <Col className='midCol'>
+                    <div className='register'>Register</div>
+                    <Form>
+
+                        <Form.Group className="nameForm">
+                            <FloatingLabel label="full name">
+                                <Form.Control onChange={e => setPersonName(e.target.value)} className="nameBorder" type="name" placeholder="full name" />
+                            </FloatingLabel>
+                        </Form.Group>
+
+                        <Form.Group className='rpEmailForm'>
+                            <FloatingLabel label="email">
+                                <Form.Control onChange={e => setRegisterPersonEmail(e.target.value)} className="rpEmailBorder" type="email" placeholder="email" />
+                            </FloatingLabel>
+                        </Form.Group>
+
+                        <Form.Group className="rpPasswordForm">
+                            <FloatingLabel label="password">
+                                <Form.Control onChange={e => setRegisterPersonPassword(e.target.value)} className="rpPasswordBorder" type="password" placeholder="password" />
+                            </FloatingLabel>
+                        </Form.Group>
+
+                        <Link to="/personlogin">
+                            <Button onClick={doPersonRegister} className='createAcctButton'>Create Account</Button>
+                        </Link>
+
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
+
+    )
+}
+
+export default PersonRegister
+
+/*
 class PersonRegister extends React.Component {
     constructor(props) {
         super(props);
@@ -83,3 +143,4 @@ class PersonRegister extends React.Component {
 }
 
 export default PersonRegister
+*/

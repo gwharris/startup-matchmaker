@@ -25,8 +25,8 @@ const StartupLogin = () => {
                     <div className="logIn">Log In As a Startup</div>
                     <Form>
                         <Form.Group className="emailForm">
-                            <FloatingLabel label="username">
-                                <Form.Control onChange={e => setLoginStartupEmail(e.target.value)} className="emailBorder" type="username" placeholder="username" />
+                            <FloatingLabel label="email">
+                                <Form.Control onChange={e => setLoginStartupEmail(e.target.value)} className="emailBorder" type="email" placeholder="email" />
                             </FloatingLabel>
                         </Form.Group>
 

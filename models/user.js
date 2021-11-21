@@ -1,4 +1,4 @@
-//USER = PERSON
+//USER = PERSON for now
 const mongoose = require('mongoose');
 const user = new mongoose.Schema({
     name: String,

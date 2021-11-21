@@ -5,7 +5,7 @@ const passport = require('passport');
 
 module.exports = function (passport) {
   passport.use(
-    new localStrategy((startup_name, startup_password, done) => {
+    new LocalStrategy((startup_name, startup_password, done) => {
       Startup.findOne({ startup_name: startup_name }, (err, startup) => {
         if (err) throw err;
         if (!startup) return done(null, false);
@@ -21,10 +21,10 @@ module.exports = function (passport) {
     })
   );
 
-  passport.serializeStartup((startup, cb) => {
+  passport.serializeUser((startup, cb) => {
     cb(null, startup.id);
   });
-  passport.deserializeStartup((id, cb) => {
+  passport.deserializeUser((id, cb) => {
     Startup.findOne({ _id: id }, (err, startup) => {
       const startupInformation = {
         startup_name: startup.startup_name,

@@ -37,13 +37,31 @@ app.use(session({
 
 app.use(cookieParser("secretcode"));
 
+app.use(passport.initialize());
+app.use(passport.session());
+require('./startupPassportConfig')(passport);
+
 //routes
+/*
+Note: AS OF NOW, both registrations of person and startup are working 100% fine, but the registration is a bit weird, and the tutorial i followed didn't really help
+*/
 app.post("/personlogin", (req, res) =>{
     console.log(req.body);
 });
 
-app.post("/startuplogin", (req, res) =>{
-    console.log(req.body);
+//method of passport, uses the passport config file but idk how that works with two separate logins
+app.post("/startuplogin", (req, res, next) =>{
+    passport.authenticate("local", (err, startup, info) => {
+        if (err) throw err;
+        if (!startup) res.send("no such startup exists");
+        else {
+            req.logIn(startup, err =>{
+                if (err) throw err;
+                res.send("successfully authenticated");
+                console.log(req.startup);
+            })
+        }
+    })(req, res, next);
 });
 
 app.post("/personregister", (req, res) =>{
@@ -51,10 +69,11 @@ app.post("/personregister", (req, res) =>{
         if (err) throw err;
         if (doc) res.send("Person already exists");
         if (!doc) {
+            const hashedPassword = await bcrypt.hash(req.body.password, 10)
             const newUser = new User({
                 name: req.body.name,
                 email: req.body.email,
-                password: req.body.password,
+                password: hashedPassword,
             });
             await newUser.save();
             res.send("User/(person) Created!");
@@ -80,6 +99,7 @@ app.post("/startupregister", (req, res) =>{
     }); 
 });
 
+//would have eventually held authenticated user data to use as you please...
 app.get("/person", (req, res) => {});
 app.get("/startup", (req, res) => {});
 
@@ -88,6 +108,7 @@ app.listen(4000, () =>{
     console.log('Server started yuh');
 })
 
+//all the old code is here! 
 /*
 const express = require("express"),
     mongoose = require("mongoose"),
