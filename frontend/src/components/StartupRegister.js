@@ -6,12 +6,15 @@ import axios from 'axios'
 
 const StartupRegister = () => {
 
-    const [ registerStartupName, setRegisterStartupName ] = useState("")
-    const [ registerStartupEmail, setRegisterEmail ] = useState("")
-    const [ registerStartupPassword, setRegisterPassword ] = useState("")
+    const [registerStartupName, setRegisterStartupName] = useState("")
+    const [registerStartupEmail, setRegisterEmail] = useState("")
+    const [registerStartupPassword, setRegisterPassword] = useState("")
 
     const doStartupRegister = () => {
         axios({
+            headers: {
+                'Content-Type': 'application/json'
+            },
             method: "POST",
             data: {
                 startup_name: registerStartupName,
@@ -19,9 +22,16 @@ const StartupRegister = () => {
                 startup_password: registerStartupPassword,
             },
             withCredentials: true,
-            url: "http://localhost:4000/startupregister",
-        }).then((res) => console.log(res));
-
+            url: "/api/registerStartup",
+        }).then((res) => {
+            console.log(res);
+            if (res.data.redirectTo) {
+                window.location = res.data.redirectTo;
+            }
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
+        
     };
     return (
         <Container className='rgContainer'>

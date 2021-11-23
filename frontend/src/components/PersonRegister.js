@@ -12,6 +12,9 @@ const PersonRegister = () => {
 
     const doPersonRegister = () => {
         axios({
+            headers: {
+                'Content-Type': 'application/json'
+            },
             method: "POST",
             data: {
                 name: registerPersonName,
@@ -19,10 +22,17 @@ const PersonRegister = () => {
                 password: registerPersonPassword,
             },
             withCredentials: true,
-            url: "http://localhost:4000/personregister",
-        }).then((res) => console.log(res));
+            url: "/api/registerUser",
+        }).then((res) => {
+            console.log(res);
+            if (res.data.redirectTo) {
+                window.location = res.data.redirectTo;
+            }
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
 
-    }
+    };
     return (
         <Container className='rgContainer'>
             <Row className='row'>
@@ -83,8 +93,11 @@ class PersonRegister extends React.Component {
         this.setState({ password: event.target.value });
     }
 
+    // at some point we will need to have different reg pages
+    // for users and startups; testing startup endpoint here
     handleSubmit = (event) => {
-        fetch('/api/register', {
+        console.log(JSON.stringify(this.state));
+        fetch('/api/registerStartup', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state)

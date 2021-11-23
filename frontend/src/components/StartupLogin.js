@@ -8,17 +8,30 @@ const StartupLogin = () => {
     const [loginStartupEmail, setLoginStartupEmail ] = useState("")
     const [ startupLoginPassword, setStartupLoginPassword ] = useState("")
     const doStartupLogin = () => {
+        console.log(JSON.stringify({
+            startup_email: loginStartupEmail,
+            startup_password: startupLoginPassword,
+        }));
         axios({
-            method: "POST",
-            data: {
-                startup_email: loginStartupEmail,
-                startup_password: startupLoginPassword,
+            headers: {
+                'Content-Type': 'application/json'
             },
+            method: "POST",
+            data: JSON.stringify({
+                username: loginStartupEmail,
+                password: startupLoginPassword,
+            }),
             withCredentials: true,
-            url: "http://localhost:4000/startuplogin",
-        }).then((res) => console.log(res))
-
-    }
+            url: "/api/loginStartup",
+        }).then((res) => {
+            console.log(res);
+            if (res.data.redirectTo) {
+                window.location = res.data.redirectTo;
+            }
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
+    };
     return (
         <Container className='lgContainer'>
             <Row className='row'>

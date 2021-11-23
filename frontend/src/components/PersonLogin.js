@@ -1,82 +1,74 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './styles/login.css';
 import { Button, Container, Row, Col, Form, FloatingLabel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-class PersonLogin extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            username: '',
-            password: ''
-        };
-    }
-
-    handleEmailChange = (event) => {
-        this.setState({ username: event.target.value });
-    }
-    handlePasswordChange = (event) => {
-        this.setState({ password: event.target.value });
-    }
-
-    handleSubmit = (event) => {
-        fetch('/api/login', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(this.state)
-        }).then(function (response) {
-            console.log(response)
-            return response.json();
-        }).then(function (data) {
-            if (data.redirectTo) {
-                window.location = data.redirectTo;
+const PersonLogin = () => {
+    const [loginPersonEmail, setLoginPersonEmail] = useState("")
+    const [loginPersonPassword, setLoginPersonPassword] = useState("")
+    const doPersonLogin = () => {
+        console.log(JSON.stringify({
+            username: loginPersonEmail,
+            password: loginPersonPassword,
+        }));
+        axios({
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: "POST",
+            data: JSON.stringify({
+                username: loginPersonEmail,
+                password: loginPersonPassword,
+            }),
+            withCredentials: true,
+            url: "/api/loginUser",
+        }).then((res) => {
+            console.log(res);
+            if (res.data.redirectTo) {
+                window.location = res.data.redirectTo;
             }
         }).catch((error) => {
             console.error('Error:', error);
         });
+    };
 
-        event.preventDefault();
-    }
-
-    render() {
-        // const { errors } = this.state;
-
-        return (
-            <Container className='lgContainer'>
-                <Row className='row'>
-                    <Col className='LGleftCol'>
-                        <div className="logIn">Log In</div>
-                        <Form>
-                            <Form.Group className="emailForm">
-                                <FloatingLabel label="email">
-                                    <Form.Control onChange={e => this.handleEmailChange(e)} className="emailBorder" type="email" placeholder="email" />
-                                </FloatingLabel>
-                            </Form.Group>
+    return (
+        <Container className='lgContainer'>
+            <Row className='row'>
+                <Col className='LGleftCol'>
+                    <div className="logIn">Log In As an Individual</div>
+                    <Form>
+                        <Form.Group className="emailForm">
+                            <FloatingLabel label="email">
+                                <Form.Control onChange={e => setLoginPersonEmail(e.target.value)} className="emailBorder" type="email" placeholder="email" />
+                            </FloatingLabel>
+                        </Form.Group>
 
 
-                            <Form.Group className="passwordForm">
-                                <FloatingLabel label="password">
-                                    <Form.Control onChange={e => this.handlePasswordChange(e)} className="passwordBorder" type="password" placeholder="password" />
-                                </FloatingLabel>
-                            </Form.Group>
-                            <Button onClick={e => this.handleSubmit(e)} className="loginButton">login</Button>
+                        <Form.Group className="passwordForm">
+                            <FloatingLabel label="password">
+                                <Form.Control onChange={e => setLoginPersonPassword(e.target.value)} className="passwordBorder" type="password" placeholder="password" />
+                            </FloatingLabel>
+                        </Form.Group>
+                        <Button onClick={doPersonLogin} className="loginButton">login</Button>
 
-                        </Form>
-                        <Link to="/personregister">
-                            <Button className="toRegister">Register</Button>
-                        </Link>
+                    </Form>
+                    <Link to="/personregister">
+                        <Button className="toRegister">Register</Button>
+                    </Link>
 
-                    </Col>
-                    <Col className='LGrightCol'>
-                        <div className='loginGreeting1'>Meet your match.</div>
-                        <div className='loginGreeting2'>Find a startup where you'll grow and make an impact!</div>
-                    </Col>
-                </Row>
-            </Container>
+                </Col>
+                <Col className='LGrightCol'>
+                    <div className='loginGreeting1'>Meet your match.</div>
+                    <div className='loginGreeting2'>Find a startup where you'll grow and learn!</div>
+                </Col>
+            </Row>
+        </Container>
 
 
-        )
-    }
+
+    )
 }
 
 export default PersonLogin
