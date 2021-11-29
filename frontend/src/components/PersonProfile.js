@@ -1,8 +1,137 @@
-import React from 'react'
-import './styles/register.css';
-import { Button, Container, Row, Col, Form, FloatingLabel } from 'react-bootstrap';
+import React, {useState } from 'react'
+import './styles/PersonProfile.css';
+import { Modal, Button, Container, Row, Col, Form, FloatingLabel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 
+const ContactModal = (props) => {
+    const [info, setInfo] = useState("");
+
+    const saveContactInfo = () => {
+        console.log(info);
+    }
+    return (
+        <Modal
+            {...props}
+            size='lg'
+            aria-labelledby='contained-modal-title-vcenter'
+            centered
+        >
+            <Modal.Header closeButton>
+                <Modal.Title id='contained-modal-title-vcenter'>
+                    Edit Contact Information
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form>
+                    <Form.Group className='personContactInfo'>
+                        <Form.Control onChange={e => setInfo(e.target.value)}/>
+                    </Form.Group>
+                </Form>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={props.onHide}>Close</Button>
+                <Button onClick={saveContactInfo}>Save</Button>
+            </Modal.Footer>
+        </Modal>
+    );
+}
+
+const AboutModal = (props) => {
+    const [bio, setBio] = useState("");
+    const saveBio = () => {
+        console.log(bio);
+        console.log("inbio")
+    }
+
+    return (
+        <Modal
+            {...props}
+            size='lg'
+            aria-labelledby='contained-modal-title-vcenter'
+            centered
+        >
+            <Modal.Header closeButton>
+                <Modal.Title id='contained-modal-title-vcenter'>
+                    Edit Bio
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form>
+                    <Form.Group className='personBio'>
+                        <Form.Control onChange={e => setBio(e.target.value)}/>
+                    </Form.Group>
+                </Form>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={props.onHide}>Close</Button>
+                <Button onClick={saveBio}>Save</Button>
+            </Modal.Footer>
+        </Modal>
+
+    );
+    
+}
+
+const PersonProfile = () => {
+    const [showContact, setShowContact] = useState(false);
+    const [showAbout, setShowAbout] = useState(false);
+    const [showSkills, setShowSkills] = useState(false);
+    
+    return (
+        <Container className='pProfileContainer'>
+
+            <Row className='personBasicInfoRow'>
+                <Col className='personCard'>
+                
+                </Col>
+            </Row>
+            
+            <Row className='personBioRow'>
+                <Col className='personContactCard'>
+                    <div className='personProfileText'>Contact</div>
+                    <div>
+                        <Button className='personContactButton' onClick={() => setShowContact(true)}>
+                            Edit Contact Information
+                        </Button>
+                        <ContactModal
+                            show={showContact}
+                            onHide={()=> setShowContact(false)}
+                        />
+                    </div>
+                </Col>
+                
+                <Col className='personBioCard'>
+                    <div className='personAbout'>
+                        About
+                        <div>
+                            <Button className='personBioButton' onClick={() => setShowAbout(true)}>
+                                Edit Bio
+                            </Button>
+                            <AboutModal
+                                show={showAbout}
+                                onHide={()=> setShowAbout(false)}
+                            />
+                        </div>
+                        {/* <hr className='l1'></hr> */}
+                    </div>
+
+                    <div className='personSkills'>
+                        Skills
+                    </div>
+                </Col>
+
+            </Row>
+
+        </Container>
+
+    )
+}
+
+export default PersonProfile
+
+/*
 class PersonProfile extends React.Component {
     constructor(props) {
         super(props);
@@ -99,3 +228,4 @@ class PersonProfile extends React.Component {
 }
 
 export default PersonProfile
+*/
