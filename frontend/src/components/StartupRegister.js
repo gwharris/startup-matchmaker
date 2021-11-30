@@ -32,6 +32,16 @@ const StartupRegister = () => {
             console.error('Error:', error);
         });
         
+
+        axios.interceptors.request.use(function (config) {
+            // console.log(req);
+            console.log(config)
+            return config;
+          }, function (error) {
+            // Do something with request error
+            return Promise.reject(error);
+          });
+        
     };
     return (
         <Container className='rgContainer'>

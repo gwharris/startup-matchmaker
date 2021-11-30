@@ -1,8 +1,8 @@
 var mongoose = require("mongoose");
 var passportlocalmongoose = require("passport-local-mongoose");
 var StartupSchema = mongoose.Schema({
-    username: String,
-    email: {
+    name: String,
+    username: {
         type: String,
         default: ""
     },
