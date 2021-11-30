@@ -4,7 +4,8 @@ import { Modal, Button, Container, Row, Col, Form, FloatingLabel } from 'react-b
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
-
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 // const ContactModal = (props) => {
 //     const [info, setInfo] = useState("");
 
@@ -77,6 +78,24 @@ const AboutModal = (props) => {
     
 }
 */
+
+const personSkills = [
+    { value: 'software engineering', label:'Software Engineering'},
+    { value: 'marketing', label:'Marketing'},
+    { value: 'product development', label:'Product Development'},
+    { value: 'consulting', label:'Consulting'},
+    { value: 'graphic design', label:'Graphic Design'},
+    { value: 'design', label:'Design'},
+    { value: 'growth hacking', label:'Growth Hacking'},
+    { value: 'social media', label:'Social Media'},
+    { value: 'data', label:'Data'},
+    { value: 'hardware engineering', label:'Hardware Engineering'},
+    { value: 'biology', label:'Biology'},
+    { value: 'chemistry', label:'Chemistry'},
+    { value: 'physics', label:'Physics'},
+    { value: 'research', label:'Research'}
+
+];
 const PersonProfile = () => {
 
     // for showing modals
@@ -100,6 +119,9 @@ const PersonProfile = () => {
     //     console.log("inbio")
     // }
 
+    // skill select
+    const [skills, setSkills] = useState([]);
+
 
     
     return (
@@ -108,7 +130,8 @@ const PersonProfile = () => {
             <Row className='personBasicInfoRow'>
                 <Col className='personCard'>
                     <div className='personName'>David Leguisamo</div>
-                
+                    <div className='personTitle'>Student</div>
+                    <div className='personOrganization'>New York University</div>
                 </Col>
             </Row>
             
@@ -183,6 +206,17 @@ const PersonProfile = () => {
 
                     <div className='personSkills'>
                         Skills
+                        <div className='personSelect'>
+                            <Select
+                                options={personSkills}
+                                placeholder='Select skills here'
+                                isMulti
+                                autoFocus
+                                onChange={setSkills}
+                            />
+                        </div>
+                        <div className='skillsText'></div>     
+
                     </div>
                 </Col>
 
