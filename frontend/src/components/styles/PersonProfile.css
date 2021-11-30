@@ -73,3 +73,19 @@
 .l1 {
     margin-top: 17em;
 }
+
+.personBioText {
+    font-size: 20px;
+} 
+
+.personContactText {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 20px;
+
+}
+
+.personName {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 40px;
+    
+}
