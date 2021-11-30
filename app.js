@@ -51,7 +51,7 @@ app.post("/api/registerStartup", function (req, res) {
     let email = req.body.startup_email;
     let password = req.body.startup_password;
     Startup.register(new Startup({ name: name, username: email }),
-        password, function (err, startup) {
+        password, function (erry, startup) {
             if (err) {
                 console.log(err);
                 // res.send({
