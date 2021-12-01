@@ -35,4 +35,19 @@ export const TalentList = [
     image: Temp,
     price: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
   },
+  {
+    name: "Temp Talent",
+    image: Temp,
+    price: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
+  {
+    name: "Temp Talent",
+    image: Temp,
+    price: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
+  {
+    name: "Temp Talent",
+    image: Temp,
+    price: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
 ];

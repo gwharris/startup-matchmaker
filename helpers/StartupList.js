@@ -32,7 +32,7 @@ export const StartupList = [
     price: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
   },
   {
-    name: "McDonalds",
+    name: "McDonald's",
     image: Mcdonalds,
     price: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
   },
