@@ -76,11 +76,14 @@
 
 .personBioText {
     font-size: 20px;
+    white-space: pre-line;
+    margin-top: 10px;
 } 
 
 .personContactText {
     font-family: 'Josefin Sans', sans-serif;
     font-size: 20px;
+    white-space: pre-line;
 
 }
 
@@ -101,4 +104,9 @@
 }
 .personSelect {
     font-size: 18px;
+}
+
+.personContactButton {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 16px;
 }

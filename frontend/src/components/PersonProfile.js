@@ -215,6 +215,7 @@ const PersonProfile = () => {
                                 onChange={setSkills}
                             />
                         </div>
+                        <Button className='saveSkillsButton'>Save Skills</Button>
                         <div className='skillsText'></div>     
 
                     </div>
