@@ -2,6 +2,7 @@ import React, {useState, useEffect } from 'react'
 import './styles/PersonProfile.css';
 import { Button, Container, Row, Col} from 'react-bootstrap';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const PersonProfile = () => {
 
@@ -23,6 +24,8 @@ const PersonProfile = () => {
     // Get data from github api. This is for testing purposes. Endpoint will be modified 
     // to use data from LOGGED IN USER
     useEffect(() => {
+        // https://api.github.com/users/dleguisamo
+        
         axios.get("https://api.github.com/users/dleguisamo")
         .then((response) => {
             setName(response.data.name);
@@ -55,7 +58,10 @@ const PersonProfile = () => {
                     <div className='personName'>{name}</div>
                     <div className='personTitle'>{title}</div>
                     <div className='personOrganization'>{organization}</div>
-                    <Button>Edit Profile</Button>
+                    
+                    <Link to="/editpersonprofile">
+                        <Button className='pEditProfileButton'>Edit Profile</Button>                    
+                    </Link>
                 </Col>
             </Row>
             

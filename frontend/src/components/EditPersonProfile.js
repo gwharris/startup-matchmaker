@@ -3,6 +3,7 @@ import './styles/editPersonProfile.css';
 import { Button, Container, Row, Col, Form} from 'react-bootstrap';
 import axios from 'axios';
 import Select from 'react-select'
+import { Link } from 'react-router-dom';
 
 const EditPersonProfile = () => {
 
@@ -114,6 +115,10 @@ const EditPersonProfile = () => {
                         </Form.Group>
 
                         <Button onClick={consoleLogSkills}className='pUpdateProfileButton'>Save Changes</Button>
+
+                        <Link to="/personprofile">
+                            <Button className='pUpdateProfileButton'>Back to Profile</Button>
+                        </Link>
                     </Form>
                 </Col>
 

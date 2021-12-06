@@ -41,7 +41,7 @@
     background-color: #edf2f4;
     max-width: 30%;
     /* margin: 30px; */
-    margin-top: 60px;
+    margin-top: 70px;
     margin-left: 30px;
     height: 55%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -54,7 +54,7 @@
     background-color: #edf2f4;
     max-width: 70%;
     /* margin: 30px; */
-    margin-top: 60px;
+    margin-top: 70px;
     margin-left: 30px;
     margin-right: 30px;
     margin-bottom: 30px;
@@ -119,4 +119,15 @@
 .personContactButton {
     font-family: 'Josefin Sans', sans-serif;
     font-size: 16px;
+}
+
+.pEditProfileButton {
+    width: 150px !important;
+    font-family: 'Josefin Sans', sans-serif !important;
+    font-size: 20px !important;
+    border-radius: 25px !important;
+    border: 2px solid #735cf9 !important;
+    background-color: #735cf9 !important;
+    outline: none !important;
+    margin-bottom: 5px;
 }
