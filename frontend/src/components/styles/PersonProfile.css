@@ -11,11 +11,12 @@
 .personBasicInfoRow {
     background-color: #734cf9;
     height: 20vh;
+    
 }
 
 .personBioRow {
     background-color: #734cf9;
-    height: 80vh;
+    height: 100vh;
 
 }
 
@@ -31,6 +32,7 @@
 .personCard {
     background-color: #edf2f4;
     margin: 30px;
+    
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -38,7 +40,9 @@
 
     background-color: #edf2f4;
     max-width: 30%;
-    margin: 30px;
+    /* margin: 30px; */
+    margin-top: 60px;
+    margin-left: 30px;
     height: 55%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -49,16 +53,22 @@
     flex-direction: column;
     background-color: #edf2f4;
     max-width: 70%;
-    margin: 30px;
+    /* margin: 30px; */
+    margin-top: 60px;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 30px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .personAbout{
-  background-color: #edf2f4;
-  height: 60%;
-
-  font-family: 'Josefin Sans', sans-serif;
-  font-size: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    background-color: #edf2f4;
+    height: 60%;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 30px;
 }
 
 .personSkills {
