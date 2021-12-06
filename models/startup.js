@@ -22,4 +22,5 @@ var StartupSchema = mongoose.Schema({
 });
 
 StartupSchema.plugin(passportlocalmongoose);
+StartupSchema.index({ 'name': 'text' });
 module.exports = mongoose.model("Startup", StartupSchema);

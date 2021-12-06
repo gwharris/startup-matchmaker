@@ -1,3 +1,6 @@
+// current TODO
+// figure out what is causing the issue with startup profile update
+
 const express = require("express"),
     mongoose = require("mongoose"),
     passport = require("passport"),
@@ -12,6 +15,7 @@ const express = require("express"),
 dotenv.config();
 const uri = process.env.MONGODB_URI;
 mongoose.connect(uri, () => { console.log("database connected!") });
+const connection = mongoose.connection;
 
 const app = express();
 app.use(express.json());
@@ -47,11 +51,11 @@ passport.deserializeUser(Startup.deserializeUser());
 // ALL CLEAR WITH TESTING
 // registers startups
 app.post("/api/registerStartup", function (req, res) {
-    let name = req.body.startup_name
-    let email = req.body.startup_email;
-    let password = req.body.startup_password;
+    const name = req.body.startup_name
+    const email = req.body.startup_email;
+    const password = req.body.startup_password;
     Startup.register(new Startup({ name: name, username: email }),
-        password, function (erry, startup) {
+        password, function (err, startup) {
             if (err) {
                 console.log(err);
                 // res.send({
@@ -72,9 +76,9 @@ app.post("/api/registerStartup", function (req, res) {
 // ALL CLEAR WITH TESTING
 // Handling user signup
 app.post("/api/registerUser", function (req, res) {
-    let name = req.body.name;
-    let email = req.body.email;
-    let password = req.body.password;
+    const name = req.body.name;
+    const email = req.body.email;
+    const password = req.body.password;
     User.register(new User({ name: name, username: email }),
         password, function (err, user) {
             if (err) {
@@ -94,9 +98,9 @@ app.post("/api/registerUser", function (req, res) {
 // ALL CLEAR WITH TESTING
 //Handling startup login
 app.post("/api/loginStartup",
-    passport.authenticate('local-startup', { 
-        failureRedirect: './../startuplogin', 
-        failureFlash: 'Invalid username or password.' 
+    passport.authenticate('local-startup', {
+        failureRedirect: './../startuplogin',
+        failureFlash: 'Invalid username or password.'
     }),
     function (req, res) {
         console.log('request!!!');
@@ -112,9 +116,9 @@ app.post("/api/loginStartup",
 //Handling user login
 //currently this works if the user can be authorized but not otherwise
 app.post("/api/loginUser",
-    passport.authenticate('local-user', { 
-        failureRedirect: './../personlogin', 
-        failureFlash: 'Invalid username or password.' 
+    passport.authenticate('local-user', {
+        failureRedirect: './../personlogin',
+        failureFlash: 'Invalid username or password.'
     }),
     function (req, res) {
         console.log('request!!!');
@@ -151,7 +155,7 @@ app.post("/api/loginUser",
 // edit a user's profile
 app.post("/api/editPersonProfile", function (req, res) {
     console.log(req);
-    var myquery = { _id: ObjectId(req.user._id) };
+    const myquery = { _id: ObjectId(req.user._id) };
     User.updateOne(myquery,
         {
             bio: req.body.person_bio,
@@ -169,7 +173,7 @@ app.post("/api/editPersonProfile", function (req, res) {
 app.post("/api/editStartupProfile", function (req, res) {
     console.log("pls update startup profile");
     console.log(req);
-    var myquery = { _id: ObjectId(req.user._id) }; //do we need to edit user here same as the getter
+    const myquery = { _id: ObjectId(req.user._id) }; //do we need to edit user here same as the getter
     Startup.updateOne(myquery,
         {
             bio: req.body.startup_bio,
@@ -181,10 +185,88 @@ app.post("/api/editStartupProfile", function (req, res) {
         });
 });
 
+// currently never returns anything even when search is exact
+// more testing/refinement needed
+// search for user-side (returns startup profiles as result)
+app.post("/api/searchUsers", function (req, res) {
+    // const searchTerm = req.body.term;
+    // Startup.find(searchTerm, function (err, result) {
+    //     if (err) throw err;
+    //     console.log('result: ', result);
+    //     res.json(result);
+    // });
+    console.log(req.body);
+    Startup
+        .find(
+            { $text: { $search: req.body.term } },
+            { score: { $meta: "textScore" } }
+        )
+        .sort({ score: { $meta: 'textScore' } })
+        .exec(function (err, result) {
+            // callback
+            if (err) throw err;
+            console.log(result);
+            res.json(result);
+        });
+})
+
+// currently never returns anything even when search is exact
+// more testing/refinement needed
+// search for startup-side (returns user profiles as a result)
+app.post("/api/searchStartups", function(req, res) {
+    User
+        .find(
+            { $text: { $search: req.body.term } },
+            { score: { $meta: "textScore" } }
+        )
+        .sort({ score: { $meta: 'textScore' } })
+        .exec(function (err, result) {
+            // callback
+            if (err) throw err;
+            console.log(result);
+            res.json(result);
+        });
+})
+
+// test when user/startup data has been populated
 // get a user's matches and send to frontend
+app.get("/api/getPersonMatches", function (req, res) {
+    // initialize queries
+    const userQuery = { _id: ObjectId(req.user._id) };
+    let skillsQuery = {};
+    // get the skills listed by the user
+    User.findOne(userQuery, 'skills', { '_id': false }, function (err, result) { //'skills' asks it to only return skills
+        if (err) throw err;
+        skillsQuery = { $text: { $search: result } };
+        console.log('skillsQuery: ', skillsQuery);
+    });
+    // search for startups with those skills listed
+    Startup.find(skillsQuery, function (err, result) {
+        if (err) throw err;
+        console.log('result: ', result);
+        res.json(result);
+    });
+});
 
-
+// test when user/startup data has been populated
 // get a startup's matches and send to frontend
+app.get("/api/getStartupMatches", function(req, res) {
+    // initialize queries
+    const userQuery = { _id: ObjectId(req.user._id) };
+    let skillsQuery = {};
+    // get the skills listed by the user
+    Startup.findOne(userQuery, 'skills', { '_id': false }, function (err, result) { //'skills' asks it to only return skills
+        if (err) throw err;
+        skillsQuery = { $text: { $search: result } };
+        console.log('skillsQuery: ', skillsQuery);
+    });
+    // search for startups with those skills listed
+    User.find(skillsQuery, function (err, result) {
+        if (err) throw err;
+        console.log('result: ', result);
+        res.json(result);
+    });
+});
 
 // logic: 
 // 1. take a startup's ID and get its desired skills
