@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css"; //install bootstrap dependency "npm install bootstrap"
 
 //import components
-import { Landing, PersonRegister, StartupRegister, PersonLogin, StartupLogin, PersonProfile, StartupProfile } from "./components";
+import { Landing, PersonRegister, StartupRegister, PersonLogin, StartupLogin, PersonProfile, EditPersonProfile, StartupProfile } from "./components";
 
 //ENTRY POINT FOR APPLICATION
 function App() {
@@ -18,6 +18,7 @@ function App() {
         <Route path="/startupregister" component={StartupRegister}></Route>
 
         <Route path="/personprofile" component={PersonProfile}></Route>
+        <Route path="/editpersonprofile" component={EditPersonProfile}></Route>
         <Route path="/startupprofile" component={StartupProfile}></Route>
 
       </Switch>
