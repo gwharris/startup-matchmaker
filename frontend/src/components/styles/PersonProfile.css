@@ -79,7 +79,9 @@
     font-size: 30px;
 
 }
-
+.skillsText {
+    font-size: 20px;
+}
 .l1 {
     margin-top: 17em;
 }
