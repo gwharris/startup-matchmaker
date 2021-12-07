@@ -9,9 +9,14 @@ import StartupLogin from './StartupLogin'
 
 import PersonProfile from './PersonProfile'
 import EditPersonProfile from './EditPersonProfile'
-//user matches
 
-import StartupProfile from './StartupProfile.js'
-//startup matches
+import PersonItem from "./PersonItem"
+import StartupItem from "./StartupItem"
+import PersonHomepage from "./PersonHomepage"
+import StartupHomepage from "./StartupHomepage"
 
-export { Landing, PersonRegister, StartupRegister, PersonLogin, StartupLogin, PersonProfile, EditPersonProfile, StartupProfile}
+import StartupProfile from './StartupProfile'
+
+
+export { Landing, PersonRegister, StartupRegister, PersonLogin, StartupLogin, PersonProfile, EditPersonProfile, StartupProfile,
+PersonItem, PersonHomepage, StartupItem, StartupHomepage}

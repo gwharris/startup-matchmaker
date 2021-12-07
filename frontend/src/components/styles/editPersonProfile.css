@@ -14,22 +14,22 @@
 }
 
 .pEditProfileCol {
-    max-width: 50%;
+    max-width: 100%;
     display: flex;
-    flex-wrap:wrap;
-    align-content: left;
+    flex-wrap: wrap;
+    align-content: center;
     flex-direction: column;
-    justify-content: left;
+    justify-content: right;
     background-color: #edf2f4;
     height: 100%;
 }
 .pEditSkillsCol {
-    max-width: 50%;
+    max-width: 100%;
     display: flex;
     flex-wrap:wrap;
-    align-content: left;
+    align-content: center;
     flex-direction: column;
-    justify-content: left;
+    justify-content: center;
     background-color: #edf2f4;
     height: 100%;
 }

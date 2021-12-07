@@ -121,7 +121,7 @@ const EditPersonProfile = () => {
                         </Link>
                     </Form>
                 </Col>
-
+{/* 
                 <Col className='pEditSkillsCol'>
                     <div className='pEditPersonSkills'>
                         Skills
@@ -137,7 +137,7 @@ const EditPersonProfile = () => {
                         </div>        
                     </div>
                 
-                </Col>
+                </Col> */}
             </Row>
         </Container>
     )
