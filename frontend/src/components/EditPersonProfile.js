@@ -105,21 +105,34 @@ const EditPersonProfile = () => {
 
                         <Form.Group className='pEditBioForm'>
                             <Form.Label>Bio</Form.Label>
-                            <Form.Control className='pEditBioBorder' value={bio} onChange={e=> setBio(e.target.value)} type='bio' as='textarea' rows={5}/>
+                            <Form.Control className='pEditBioBorder' value={bio} onChange={e=> setBio(e.target.value)} type='bio' as='textarea' rows={3}/>
                         </Form.Group>
                         
 
                         <Form.Group className='pEditContactForm'>
                             <Form.Label>Contact Info</Form.Label>
-                            <Form.Control className='pEditContactBorder' value={contact} onChange={e=> setContact(e.target.value)} type='contact' as='textarea' rows={5}/>
+                            <Form.Control className='pEditContactBorder' value={contact} onChange={e=> setContact(e.target.value)} type='contact' as='textarea' rows={3}/>
                         </Form.Group>
+                        Skills
+                        <Select
+                                className='pSkillSelectBorder'
+                                options={personSkills}
+                                placeholder='Select skills here'
+                                isMulti
+                                autoFocus
+                                onChange={setSkills}
+                                />
 
                         <Button onClick={consoleLogSkills}className='pUpdateProfileButton'>Save Changes</Button>
 
                         <Link to="/personprofile">
-                            <Button className='pUpdateProfileButton'>Back to Profile</Button>
+                            <Button className='pBackToProfileButton'>Back to Profile</Button>
                         </Link>
+
+                        
+                    
                     </Form>
+
                 </Col>
 {/* 
                 <Col className='pEditSkillsCol'>
