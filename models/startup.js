@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 var passportlocalmongoose = require("passport-local-mongoose");
-var UserSchema = mongoose.Schema({
+var StartupSchema = mongoose.Schema({
     name: String,
     username: {
         type: String,
@@ -15,25 +15,13 @@ var UserSchema = mongoose.Schema({
         type: String,
         default: ""
     },
-    title: {
-        type: String,
-        default: ""
-    },
-    organization: {
-        type: String,
-        default: ""
-    },
-    contact: {
-        type: String,
-        default: ""
-    },
     skills: [{
         type: String,
         default: ""
-    }],
-
+    }]
+    
 });
 
-UserSchema.plugin(passportlocalmongoose);
-UserSchema.index({ 'name': 'text' });
-module.exports = mongoose.model("User", UserSchema);
+StartupSchema.plugin(passportlocalmongoose);
+StartupSchema.index({ 'name': 'text' });
+module.exports = mongoose.model("Startup", StartupSchema);

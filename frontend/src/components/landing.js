@@ -3,20 +3,20 @@ import {Button, Container, Row, Col} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import './styles/homepage.css'
 
-const HomePage = (props) => {
+const Landing = (props) => {
 
     return (
         <Container fluid className='hpContainer'>
             <Row className='hpRow'>
                 <Col className="leftCol">
                     <div className='startupQuestion'>ARE YOU A</div>
-                    <Link to="/login">
+                    <Link to="/startuplogin">
                         <Button className="startupButton">STARTUP?</Button>
                     </Link>
                 </Col>
                 <Col className='rightCol'>
                     <div className='personQuestion'>ARE YOU A</div>
-                    <Link to="/login">
+                    <Link to="/personlogin">
                         <Button className='personButton'>PERSON?</Button>
                     </Link>
                 </Col>
@@ -25,4 +25,4 @@ const HomePage = (props) => {
     )
 }
 
-export default HomePage
+export default Landing
