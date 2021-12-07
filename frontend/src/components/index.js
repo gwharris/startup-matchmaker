@@ -16,6 +16,7 @@ import PersonHomepage from "./PersonHomepage"
 import StartupHomepage from "./StartupHomepage"
 
 import StartupProfile from './StartupProfile'
+import AppNavbar from './AppNavbar'
 
 
 export { Landing, PersonRegister, StartupRegister, PersonLogin, StartupLogin, PersonProfile, EditPersonProfile, StartupProfile,

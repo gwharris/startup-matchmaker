@@ -1,14 +1,10 @@
 import React from 'react'
-import { StartupItem } from '.'
+// import { StartupItem, Navbar } from 'Navbar.js'
+import AppNavbar from './AppNavbar'
 
 const PersonHomepage = () => {
     return (
-        <div className='startup'>
-            <h1 className='startupHeader'>Startup</h1>
-            <div className='startupList'>
-
-            </div>
-        </div>
+        <AppNavbar/>
     )
 }
 

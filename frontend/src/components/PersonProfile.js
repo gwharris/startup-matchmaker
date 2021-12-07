@@ -3,6 +3,7 @@ import './styles/PersonProfile.css';
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import AppNavbar from './AppNavbar'
 
 const PersonProfile = () => {
 
@@ -53,7 +54,7 @@ const PersonProfile = () => {
 
     return (
         <Container className='pProfileContainer'>
-
+            <AppNavbar/>
             <Row className='personBasicInfoRow'>
                 <Col className='personCard'>
                     <div className='personName'>{name}</div>
