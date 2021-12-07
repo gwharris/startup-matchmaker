@@ -19,6 +19,7 @@ var StartupSchema = mongoose.Schema({
         type: String,
         default: ""
     }]
+    
 });
 
 StartupSchema.plugin(passportlocalmongoose);

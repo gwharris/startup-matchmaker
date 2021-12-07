@@ -15,14 +15,23 @@ var UserSchema = mongoose.Schema({
         type: String,
         default: ""
     },
+    title: {
+        type: String,
+        default: ""
+    },
+    organization: {
+        type: String,
+        default: ""
+    },
+    contact: {
+        type: String,
+        default: ""
+    },
     skills: [{
         type: String,
         default: ""
     }],
-    experience: [{
-        type: String,
-        default: ""
-    }]
+
 });
 
 UserSchema.plugin(passportlocalmongoose);

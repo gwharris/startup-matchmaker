@@ -125,47 +125,54 @@ app.post("/api/loginUser",
         res.send({
             // currently broken because matches does not exist but
             // should be resolved soon
-            redirectTo: './../matches',
+            redirectTo: './../personprofile',
         });
     });
 
 // not currently needed depending on how the frontend is set up
 // // testing still needed
 // //  get a user's profile information
-// app.get("/api/getUserProfile", function (req, res) {
-//     var myquery = { _id: ObjectId(req.user._id) };
-//     User.findOne(myquery, function (err, result) {
-//         if (err) throw err;
-//         res.json(result);
-//     });
-// });
+app.get("/api/getUserProfile", function (req, res) {
+    var myquery = { _id: ObjectId(req.user._id) };
+    User.findOne(myquery, function (err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.json(result);
+    });
+});
 
 // // testing still needed
 // //  get a startup's profile information
-// app.get("/api/getStartupProfile", function (req, res) {
-//     var myquery = { _id: ObjectId(req.user._id) }; //might need to change user here? test
-//     Startup.findOne(myquery, function (err, result) {
-//         if (err) throw err;
-//         res.json(result);
-//     });
-// });
+app.get("/api/getStartupProfile", function (req, res) {
+    var myquery = { _id: ObjectId(req.user._id) }; //might need to change user here? test
+    Startup.findOne(myquery, function (err, result) {
+        if (err) throw err;
+        res.json(result);
+    });
+});
 
 // ALL CLEAR WITH TESTING
-// one remaining issue for backlog: make skills separable into elems in array
 // edit a user's profile
 app.post("/api/editPersonProfile", function (req, res) {
-    console.log(req);
+    // console.log(req);
     const myquery = { _id: ObjectId(req.user._id) };
+    const personSkills = req.body.skills.map(function(item) {
+        return item['label'];
+      });
     User.updateOne(myquery,
         {
-            bio: req.body.person_bio,
-            skills: req.body.person_skills,
-            experience: req.body.person_experience
+            name: req.body.name,
+            organization: req.body.organization,
+            title: req.body.title,
+            bio: req.body.bio,
+            contact: req.body.contact,
+            skills: personSkills
         },
         function (err, result) {
             if (err) throw err;
             res.json(result);
         });
+    
 });
 
 // testing still needed

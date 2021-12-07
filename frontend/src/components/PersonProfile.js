@@ -1,73 +1,99 @@
-import React, {useState} from 'react'
-import './styles/register.css';
-import { Button, Container, Row, Col, Form, FloatingLabel } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import './styles/PersonProfile.css';
+import { Button, Container, Row, Col } from 'react-bootstrap';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const PersonProfile = () => {
 
-    const [editPersonBio, setPersonBio] = useState("")
-    const [editPersonSkills, setPersonSkills] = useState("")
-    const [editPersonExperience, setPersonExperience] = useState("")
+    // All data fields we are using, will be modified with official backend
+    //for testing purposes, organization = data.company // name = data.name // bio = data.bio // organization = data.company // title = data.type
+    //skills still empty for now need to figure out storage method
+    const [name, setName] = useState(null);
+    const [organization, setOrganization] = useState(null);
+    const [title, setTitle] = useState(null);
+    const [bio, setBio] = useState(null);
+    const [contact, setContact] = useState(null);
+    const [skills, setSkill] = useState(null);
 
-    const doPersonProfileUpdate = () => {
-        axios({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: "POST",
-            data: {
-                person_bio: editPersonBio, 
-                person_skills: editPersonSkills,
-                person_experience: editPersonExperience,
-            },
-            withCredentials: true,
-            url: "/api/editPersonProfile",
-        }).then((res) => {
-            console.log(res);
-            console.log(res.data);
-            // probably don't need a redirect for profile updates
-            // if (res.data.redirectTo) {
-            //     window.location = res.data.redirectTo;
-            // }
-        }).catch((error) => {
-            console.error('Error:', error);
-        });
-        
-    };
+
+    // fetching data, error and loading notifications included
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    // Get data from github api. This is for testing purposes. Endpoint will be modified 
+    // to use data from LOGGED IN USER
+    useEffect(() => {
+        // https://api.github.com/users/dleguisamo
+
+        axios.get("/api/getUserProfile")
+            .then((response) => {
+                console.log(response.data);
+                setName(response.data.name);
+                setTitle(response.data.title);
+                setOrganization(response.data.organization);
+                setBio(response.data.bio);
+                setContact(response.data.contact);
+                setSkill(response.data.skills);
+            })
+            .catch((error) => {
+                console.error("Could not fetch data: ", error);
+                setError(error)
+            })
+            .finally(() => {
+                setLoading(false)
+            });
+    }, []);
+
+    if (loading) return "Loading data...";
+    if (error) return "An error!"
+
+
+
+
     return (
-        <Container className='rgContainer'>
-            <Row className='row'>
-                <Col className='midCol'>
-                    <div className='register'>Your Profile</div>
-                    <Form>
+        <Container className='pProfileContainer'>
 
-                        <Form.Group className="bioForm">
-                            <FloatingLabel label="person bio">
-                                <Form.Control onChange={e => setPersonBio(e.target.value)} className="bioBorder" type="bio" placeholder="tell us about yourself" />
-                            </FloatingLabel>
-                        </Form.Group>
+            <Row className='personBasicInfoRow'>
+                <Col className='personCard'>
+                    <div className='personName'>{name}</div>
+                    <div className='personTitle'>{title}</div>
+                    <div className='personOrganization'>{organization}</div>
 
-                        <Form.Group className='skillsForm'>
-                            <FloatingLabel label="person skills">
-                                <Form.Control onChange={e => setPersonSkills(e.target.value)} className="personSkillsBorder" type="skills" placeholder="tell us more about your skills" />
-                            </FloatingLabel>
-                        </Form.Group>
-
-                        <Form.Group className="experienceForm">
-                            <FloatingLabel label="person experience">
-                                <Form.Control onChange={e => setPersonExperience(e.target.value)} className="personExperienceBorder" type="experience" placeholder="tell us more about your experience" />
-                            </FloatingLabel>
-                        </Form.Group>
-
-                        <Link to="/personprofile">
-                            <Button onClick={doPersonProfileUpdate} className='updateProfileButton'>Save</Button>
-                        </Link>
-
-                    </Form>
+                    <Link to="/editpersonprofile">
+                        <Button className='pEditProfileButton'>Edit Profile</Button>
+                    </Link>
                 </Col>
             </Row>
+
+            <Row className='personBioRow'>
+
+                <Col className='personContactCard'>
+                    <div className='personProfileText'>Contact</div>
+                    <div className='personContactText'>{contact}</div>
+
+                </Col>
+
+                <Col className='personBioCard'>
+                    <div className='personAbout'>
+                        About
+                        <div className='personBioText'>{bio}</div>
+
+                    </div>
+
+                    <div className='personSkills'>
+                        Skills
+                        <div className='skillsText'>{
+                            skills.map((item) => (
+                                <li key={item}>{item}</li>
+                            ))
+                        }</div>
+
+                    </div>
+                </Col>
+
+            </Row>
+
         </Container>
 
     )
@@ -75,101 +101,104 @@ const PersonProfile = () => {
 
 export default PersonProfile
 
-// important line dividing new and old code
+/*
+        <Container className='pProfileContainer'>
 
-// class PersonProfile extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             bio: '',
-//             skills: '',
-//             experience: '',
-//         };
-//     }
+            <Row className='personBasicInfoRow'>
+                <Col className='personCard'>
+                    <div className='personName'>David Leguisamo</div>
+                    <div className='personTitle'>Student</div>
+                    <div className='personOrganization'>New York University</div>
+                </Col>
+            </Row>
 
-//     handleBioChange = (event) => {
-//         this.setState({ bio: event.target.value });
-//     }
-//     handleSkillsChange = (event) => {
-//         this.setState({ skills: event.target.value });
-//     }
-//     handleExperienceChange = (event) => {
-//         this.setState({ experience: event.target.value });
-//     }
+            <Row className='personBioRow'>
+                <Col className='personContactCard'>
+                    <div className='personProfileText'>Contact</div>
+                    <div>
+                        <Button className='personContactButton' onClick={handleContactShow}>
+                            Edit Contact Information
+                        </Button>
+                        <Modal size='lg' aria-labelledby='contained-modal-title-vcenter' centered show={showContact} onHide={handleContactClose}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title id='contained-modal-title-vcenter'>
+                                        Edit Contact Info
+                                    </Modal.Title>
+                                </Modal.Header>
 
-//     getUserProfile = (event) => {
-//         fetch('/api/getProfile', {
-//             method: 'GET',
-//         }).then(function (response) {
-//             console.log(response)
-//             return response.json();
-//         }).then(function (data) {
-//             console.log(data);
-//         }).catch((error) => {
-//             console.error('Error:', error);
-//         });
+                                <Modal.Body>
+                                    <Form>
+                                        <Form.Group className='personContactInfo'>
+                                            <Form.Label>Make changes here!</Form.Label>
+                                            <Form.Control onChange={e=> setContact(e.target.value)} as='textarea' rows={4}/>
+                                        </Form.Group>
+                                    </Form>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button onClick={handleContactClose}>Close</Button>
 
-//         event.preventDefault();
-//     }
+                                    </Modal.Footer>
+                                    </Modal>
+                            </div>
+                            <div className='personContactText'>
+                                {contact}
+                            </div>
+                        </Col>
 
-//     updateUserProfile = (event) => {
-//         fetch('/api/editProfile', {
-//             method: 'POST',
-//             headers: {'Content-Type': 'application/json'},
-//             body: JSON.stringify(this.state)
-//         }).then(function (response) {
-//             console.log(response)
-//             return response.json();
-//         }).then(function (data) {
-//             console.log(data);
-//         }).catch((error) => {
-//             console.error('Error:', error);
-//         });
+                        <Col className='personBioCard'>
+                            <div className='personAbout'>
+                                About
+                                <div>
+                                    <Button className='personBioButton' onClick={handleAboutShow}>
+                                        Edit Bio
+                                    </Button>
 
-//         event.preventDefault();
-//     }
+                                    <Modal size='lg' aria-labelledby='contained-modal-title-vcenter' centered show={showAbout} onHide={handleAboutClose}>
+                                        <Modal.Header closeButton>
+                                            <Modal.Title id='contained-modal-title-vcenter'>
+                                                Edit Bio
+                                            </Modal.Title>
+                                        </Modal.Header>
 
-//     render() {
+                                        <Modal.Body>
+                                            <Form>
+                                                <Form.Group className='personBio'>
+                                                    <Form.Label>Make changes here!</Form.Label>
+                                                    <Form.Control onChange={e=> setBio(e.target.value)} as='textarea' rows={4}/>
+                                                </Form.Group>
+                                            </Form>
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                            <Button onClick={handleAboutClose}>Close</Button>
 
-//         return (
-//             <Container className='profileContainer'>
-//                 <Row className='row'>
-//                     <Col className='leftCol'>
-//                         <Button onClick={e => this.getUserProfile(e)}>Get my profile!</Button>
-//                     </Col>
-//                     <Col className='rightCol'>
-//                         <div className='register'>Register</div>
-//                         <Form>
+                                        </Modal.Footer>
+                                    </Modal>
 
-//                             <Form.Group className="bioForm">
-//                                 <FloatingLabel label="bio">
-//                                     <Form.Control className="bioBorder" onChange={e => this.handleBioChange(e)} type="bio" placeholder="bio" />
-//                                 </FloatingLabel>
-//                             </Form.Group>
+                                </div>
 
-//                             <Form.Group className='skillsForm'>
-//                                 <FloatingLabel label="skills">
-//                                     <Form.Control className="skillsBorder" onChange={e => this.handleSkillsChange(e)} type="skills" placeholder="skills" />
-//                                 </FloatingLabel>
-//                             </Form.Group>
+                                <div className='personBioText'>
+                                    {bio}
+                                </div>
+                            </div>
 
-//                             <Form.Group className="experienceForm">
-//                                 <FloatingLabel label="experience">
-//                                     <Form.Control className="experienceBorder" onChange={e => this.handleExperienceChange(e)} type="experience" placeholder="experience" />
-//                                 </FloatingLabel>
-//                             </Form.Group>
+                            <div className='personSkills'>
+                                Skills
+                                <div className='personSelect'>
+                                    <Select
+                                        options={personSkills}
+                                        placeholder='Select skills here'
+                                        isMulti
+                                        autoFocus
+                                        onChange={setSkills}
+                                    />
+                                </div>
+                                <Button className='saveSkillsButton'>Save Skills</Button>
+                                <div className='skillsText'></div>
 
-//                             <Link to="/login">
-//                                 <Button onClick={e => this.updateUserProfile(e)} className='editProfileButton'>Save Updates</Button>
-//                             </Link>
+                            </div>
+                        </Col>
 
-//                         </Form>
-//                     </Col>
-//                 </Row>
-//             </Container>
+                    </Row>
 
-//         )
-//     }
-// }
-
-// export default PersonProfile
+                </Container>
+*/
