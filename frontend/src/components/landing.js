@@ -16,7 +16,7 @@ const Landing = (props) => {
                 </Col>
                 <Col className='rightCol'>
                     <div className='personQuestion'>ARE YOU AN</div>
-                    <Link to="/login">
+                    <Link to="/personlogin">
                         <Button className='personButton'>INDIVIDUAL?</Button>
                     </Link>
                 </Col>
