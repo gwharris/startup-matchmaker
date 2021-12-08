@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+
+
+.startupItemContainer {
+    font-family: 'Josefin Sans', sans-serif;
+    background-color: #edf2f4;
+    border-radius: 35px;
+    width: 300px;
+    height: 350px;
+    margin: 20px;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.startupItemContainer:hover {
+    box-shadow: 5px 10px 25px rgba(0, 0, 0, 0.9);
+    transition: 0.3s ease-in;
+    cursor: pointer;
+  }

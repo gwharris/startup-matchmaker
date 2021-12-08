@@ -27,7 +27,7 @@
     align-content: center;
     justify-content: center;
     flex-direction: column;
-    background-color: #735cf9;
+    background-color: #5d89ba;
     height: 100%;
 }
 
@@ -66,8 +66,8 @@
     font-family: 'Josefin Sans', sans-serif !important;
     font-size: 20px !important;
     border-radius: 25px !important;
-    border: 2px solid #735cf9 !important;
-    background-color: #735cf9 !important;
+    border: 2px solid #5d89ba !important;
+    background-color: #5d89ba !important;
     outline: none !important;
 }
 
