@@ -51,7 +51,7 @@ const PersonLogin = () => {
                                 <Form.Control onChange={e => setLoginPersonPassword(e.target.value)} className="passwordBorder" type="password" placeholder="password" />
                             </FloatingLabel>
                         </Form.Group>
-                        <Button onClick={doPersonLogin} className="loginButton">login</Button>
+                        <Button onClick={doPersonLogin} className="loginButton">Login</Button>
 
                     </Form>
                     <Link to="/personregister">

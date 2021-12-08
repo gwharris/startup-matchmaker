@@ -50,7 +50,7 @@ const StartupLogin = () => {
                                 <Form.Control onChange={e => setStartupLoginPassword(e.target.value)} className="passwordBorder" type="password" placeholder="password" />
                             </FloatingLabel>
                         </Form.Group>
-                        <Button onClick={doStartupLogin} className="loginButton">login</Button>
+                        <Button onClick={doStartupLogin} className="loginButton">Login</Button>
 
                     </Form>
                     <Link to="/startupregister">
@@ -60,7 +60,7 @@ const StartupLogin = () => {
                 </Col>
                 <Col className='LGrightCol'>
                     <div className='loginGreeting1'>Meet your match.</div>
-                    <div className='loginGreeting2'>Find talented people to help grow your startup</div>
+                    <div className='loginGreeting2'>Find talented people to help grow your startup!</div>
                 </Col>
             </Row>
     </Container>
