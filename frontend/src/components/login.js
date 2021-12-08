@@ -59,7 +59,7 @@ class Login extends React.Component {
                                     <Form.Control onChange={e => this.handlePasswordChange(e)} className="passwordBorder" type="password" placeholder="password" />
                                 </FloatingLabel>
                             </Form.Group>
-                            <Button onClick={e => this.handleSubmit(e)} className="loginButton">login</Button>
+                            <Button onClick={e => this.handleSubmit(e)} className="loginButton">Login</Button>
 
                         </Form>
                         <Link to="/register">
@@ -69,7 +69,7 @@ class Login extends React.Component {
                     </Col>
                     <Col className='LGrightCol'>
                         <div className='loginGreeting1'>Meet your match.</div>
-                        <div className='loginGreeting2'>Find a startup where you'll grow and make an impact!</div>
+                        <div className='loginGreeting2'>We help startups find talent who will make an impact!</div>
                     </Col>
                 </Row>
             </Container>

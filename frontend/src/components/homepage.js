@@ -15,9 +15,9 @@ const HomePage = (props) => {
                     </Link>
                 </Col>
                 <Col className='rightCol'>
-                    <div className='personQuestion'>ARE YOU A</div>
+                    <div className='personQuestion'>ARE YOU AN</div>
                     <Link to="/login">
-                        <Button className='personButton'>PERSON?</Button>
+                        <Button className='personButton'>INDIVIDUAL?</Button>
                     </Link>
                 </Col>
             </Row>
