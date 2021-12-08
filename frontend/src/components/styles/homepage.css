@@ -18,7 +18,7 @@
   align-content: center;
   justify-content: center;
   flex-direction: column;
-  background-color: #734cf9;
+  background-color: #5d89ba;
   height: 100%;
   
 }
@@ -48,7 +48,7 @@
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
 
   border: none !important;
-  color: #734cf9 !important;
+  color: #5d89ba !important;
   font-family: 'Josefin Sans', sans-serif !important;
   font-size: 50px !important;
   text-align: center !important;
@@ -57,10 +57,10 @@
 
 .personButton {
 
-  width: 334px !important;
+  width: 350px !important;
   height: 87px !important;
 
-  background: #734cf9 !important;
+  background: #5d89ba !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25) !important;
 
   border: none !important;
@@ -74,20 +74,20 @@
 
 .startupQuestion{
   width: 334px;
-  height:87px;
+  height: 87px;
   text-align: center;
-  background-color: #734cf9;
+  background-color: #5d89ba;
   color: #edf2f4 !important;
   font-family: 'Josefin Sans', sans-serif !important;
   font-size: 50px !important;
 }
 
 .personQuestion {
-  width: 334px;
-  height:87px;
+  width: 350px;
+  height: 87px;
   text-align: center;
   background-color: #edf2f4;
-  color: #734cf9 !important;
+  color: #5d89ba !important;
   font-family: 'Josefin Sans', sans-serif !important;
   font-size: 50px !important;
 }
