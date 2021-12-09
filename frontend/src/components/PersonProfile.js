@@ -24,30 +24,31 @@ const PersonProfile = () => {
 
     // Get data from github api. This is for testing purposes. Endpoint will be modified 
     // to use data from LOGGED IN USER
-    // useEffect(() => {
-    //     // https://api.github.com/users/dleguisamo
 
-    //     axios.get("/api/getUserProfile")
-    //         .then((response) => {
-    //             console.log(response.data);
-    //             setName(response.data.name);
-    //             setTitle(response.data.title);
-    //             setOrganization(response.data.organization);
-    //             setBio(response.data.bio);
-    //             setContact(response.data.contact);
-    //             setSkill(response.data.skills);
-    //         })
-    //         .catch((error) => {
-    //             console.error("Could not fetch data: ", error);
-    //             setError(error)
-    //         })
-    //         .finally(() => {
-    //             setLoading(false)
-    //         });
-    // }, []);
+    useEffect(() => {
+        // https://api.github.com/users/dleguisamo
 
-    // if (loading) return "Loading data...";
-    // if (error) return "An error!"
+        axios.get("/api/getUserProfile")
+            .then((response) => {
+                console.log(response.data);
+                setName(response.data.name);
+                setTitle(response.data.title);
+                setOrganization(response.data.organization);
+                setBio(response.data.bio);
+                setContact(response.data.contact);
+                setSkill(response.data.skills);
+            })
+            .catch((error) => {
+                console.error("Could not fetch data: ", error);
+                setError(error)
+            })
+            .finally(() => {
+                setLoading(false)
+            });
+    }, []);
+
+    if (loading) return "Loading data...";
+    if (error) return "An error!"
 
 
 
@@ -57,10 +58,27 @@ const PersonProfile = () => {
             <AppNavbar/>
             <Row className='pProfileRow'>
                 <Col className='pProfileCard'>
-                    <div>Test div</div>
-                    {/* <Link to="/editpersonprofile">
+                    <div className='personName'>{name}</div>
+                    <div className='personTitle'>{title}</div>
+                    <div className='personOrganization'>{organization}</div>
+                    <Link to="/editpersonprofile">
                         <Button className='pEditProfileButton'>Edit Profile</Button>
-                    </Link> */}
+                    </Link>
+                    <hr className='line'/>
+
+                    <div className='pHeader'>About Me</div>
+                    <div className='pBioText'>{bio}</div>
+                    <hr className='line'/>
+                    <div className='pHeader'>My Skills</div>
+                    <div className='pSkillsText'>{
+                        skills.map((item) => (
+                        <li key={item}>{item}</li>
+                        ))
+                    }</div>
+                    <hr className='line'/>
+                    <div className='pHeader'>Contact Me</div>
+                    <div className='pContactText'>{contact}</div>
+
                 </Col>
             </Row>
         </Container>
