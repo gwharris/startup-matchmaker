@@ -18,7 +18,7 @@
     align-items: center;
     font-family: 'Josefin Sans', sans-serif;
     font-size: 30px;
-    background-color: #edf2f4
+    background-color: #5d89ba;
 
 }
 
@@ -32,8 +32,11 @@
     
 }
 .allStartups {
+    margin: auto;
+    width: 80%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;
 }
+
