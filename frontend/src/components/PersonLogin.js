@@ -3,6 +3,7 @@ import './styles/login.css';
 import { Button, Container, Row, Col, Form, FloatingLabel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import BgImage from "./styles/bg_sm.png";
 
 const PersonLogin = () => {
     const [loginPersonEmail, setLoginPersonEmail] = useState("")
@@ -37,7 +38,7 @@ const PersonLogin = () => {
         <Container className='lgContainer'>
             <Row className='row'>
                 <Col className='LGleftCol'>
-                    <div className="logIn">Log In As an Individual</div>
+                    <div className="logIn">Individual Log In</div>
                     <Form>
                         <Form.Group className="emailForm">
                             <FloatingLabel label="email">
@@ -55,13 +56,17 @@ const PersonLogin = () => {
 
                     </Form>
                     <Link to="/personregister">
-                        <Button className="toRegister">Register</Button>
+                        <Button className="toRegister">register</Button>
                     </Link>
 
                 </Col>
                 <Col className='LGrightCol'>
+                    <div className='greetingImg'>
+                        <img src={BgImage}/>
+                    </div>
                     <div className='loginGreeting1'>Meet your match.</div>
                     <div className='loginGreeting2'>Find a startup where you'll grow and learn!</div>
+
                 </Col>
             </Row>
         </Container>
