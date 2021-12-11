@@ -1,7 +1,32 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Navbar, Container, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
 import './styles/Navbar.css';
+import axios from 'axios';
+
 const AppNavbar = () => {
+    const [searchTerm, setSearchTerm] = useState("")
+    
+    const doSearch = () => {
+        console.log(JSON.stringify({
+            term: searchTerm,
+        }));
+        axios({
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: "POST",
+            data: JSON.stringify({
+                term: searchTerm,
+            }),
+            withCredentials: true,
+            url: "/api/search",
+        }).then((res) => {
+            console.log(res);
+        }).catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+
     return (
         <Navbar bg="light" expand="lg">
             <Container fluid>
@@ -19,12 +44,13 @@ const AppNavbar = () => {
                 </Nav>
                 <Form className="d-flex">
                     <FormControl
+                    onChange={e => setSearchTerm(e.target.value)}
                     type="search"
                     placeholder="Search"
                     className="me-2"
                     aria-label="Search"
                     />
-                    <Button className='navbuttons' variant="outline-secondary">Search</Button>
+                    <Button onClick={doSearch} className='navbuttons' variant="outline-secondary">Search</Button>
                 </Form>
                 </Navbar.Collapse>
             </Container>

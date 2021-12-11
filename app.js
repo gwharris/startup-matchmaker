@@ -192,41 +192,49 @@ app.post("/api/editStartupProfile", function (req, res) {
         });
 });
 
-// currently never returns anything even when search is exact
-// more testing/refinement needed
-// search for user-side (returns startup profiles as result)
-app.post("/api/searchUsers", function (req, res) {
-    console.log(req.body);
-    Startup
-        .find(
-            { $text: { $search: req.body.term } },
-            // { score: { $meta: "textScore" } }
-        )
-        // .sort({ score: { $meta: 'textScore' } })
-        .exec(function (err, result) {
-            // callback
-            if (err) throw err;
-            console.log(result);
-            res.json(result);
-        });
-})
+// search endpoint helper
+function searchStartups(term) {
+    return new Promise(resolve => {
+        Startup
+            .find(
+                { $text: { $search: term } },
+                { score: { $meta: "textScore" } }
+            )
+            .sort({ score: { $meta: 'textScore' } })
+            .exec(function (err, result) {
+                // callback
+                if (err) throw err;
+                console.log('search result is: ', result);
+                resolve(result);
+            });
+    });
+}
 
-// currently never returns anything even when search is exact
-// more testing/refinement needed
-// search for startup-side (returns user profiles as a result)
-app.post("/api/searchStartups", function (req, res) {
-    User
-        .find(
-            { $text: { $search: req.body.term } },
-            { score: { $meta: "textScore" } }
-        )
-        .sort({ score: { $meta: 'textScore' } })
-        .exec(function (err, result) {
-            // callback
-            if (err) throw err;
-            console.log(result);
-            res.json(result);
-        });
+// search endpoint helper
+function searchUsers(term) {
+    return new Promise(resolve => {
+        User
+            .find(
+                { $text: { $search: term } },
+                { score: { $meta: "textScore" } }
+            )
+            .sort({ score: { $meta: 'textScore' } })
+            .exec(function (err, result) {
+                // callback
+                if (err) throw err;
+                console.log(result);
+                resolve(result);
+            });
+    });
+}
+
+// ALL CLEAR WITH TESTING
+// search for everyone
+app.post("/api/search", async function (req, res) {
+    let userResults = await searchUsers(req.body.term);
+    let startupResults = await searchStartups(req.body.term);
+    let allResults = userResults.concat(startupResults);
+    res.json(allResults);
 })
 
 // gets user skills
@@ -295,7 +303,7 @@ function getUsers(skill) {
 app.get("/api/getStartupMatches", async function (req, res) {
     // initialize queries
     //still not really sure about the user v startup thing here, double check
-    const userQuery = { _id: ObjectId(req.user._id) }; 
+    const userQuery = { _id: ObjectId(req.user._id) };
     // get the skills listed by the startup
     let startupSkills = await getStartupSkills(userQuery);
     let allUsers = [];
