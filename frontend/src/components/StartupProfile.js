@@ -16,61 +16,29 @@ const StartupProfile = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // useEffect(() => {
-    //     // https://api.github.com/users/dleguisamo
+    useEffect(() => {
+        // https://api.github.com/users/dleguisamo
 
-    //     axios.get("/api/getStartupProfile")
-    //         .then((response) => {
-    //             console.log(response.data);
-    //             setStartupName(response.data.name);
-    //             setStartupBio(response.data.bio);
-    //             setStartupContact(response.data.contact);
-    //             setStartupSkills(response.data.skills);
-    //         })
-    //         .catch((error) => {
-    //             console.error("Could not fetch data: ", error);
-    //             setError(error)
-    //         })
-    //         .finally(() => {
-    //             setLoading(false)
-    //         });
-    // }, []);
+        axios.get("/api/getStartupProfile")
+            .then((response) => {
+                console.log(response.data);
+                setStartupName(response.data.name);
+                setStartupBio(response.data.bio);
+                setStartupContact(response.data.contact);
+                setStartupSkills(response.data.skills);
+            })
+            .catch((error) => {
+                console.error("Could not fetch data: ", error);
+                setError(error)
+            })
+            .finally(() => {
+                setLoading(false)
+            });
+    }, []);
 
-    // if (loading) return "Loading data...";
-    // if (error) return "An error!"
+    if (loading) return "Loading data...";
+    if (error) return "An error!"
 
-    // const doStartupProfileUpdate = () => {
-    //     axios({
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         method: "POST",
-    //         data: {
-    //             startup_bio: editStartupBio, 
-    //             startup_skills: editStartupSkills,
-    //         },
-    //         withCredentials: true,
-    //         url: "/api/editStartupProfile",
-    //     }).then((res) => {
-    //         console.log(res);
-    //         console.log(res.data);
-    //         // probably don't need a redirect for profile updates
-    //         // if (res.data.redirectTo) {
-    //         //     window.location = res.data.redirectTo;
-    //         // }
-    //     }).catch((error) => {
-    //         console.error('Error:', error);
-    //     });
-        
-    //     axios.interceptors.request.use(function (config) {
-    //         // console.log(req);
-    //         console.log(config)
-    //         return config;
-    //       }, function (error) {
-    //         // Do something with request error
-    //         return Promise.reject(error);
-    //       });
-    // };
     return (
         <Container className='sProfileContainer'>
             <StartupNavbar/>
