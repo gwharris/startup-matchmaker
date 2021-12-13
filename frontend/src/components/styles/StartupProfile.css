@@ -50,6 +50,7 @@
     height: auto;
     white-space: pre-line;
     overflow-y: auto;
+    padding-bottom: 30px;
 }
 
 .sBioText{
