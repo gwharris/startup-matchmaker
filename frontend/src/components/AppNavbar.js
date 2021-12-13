@@ -1,10 +1,22 @@
 import React, {useState} from 'react';
-import { Navbar, Container, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
+import { Modal, Navbar, Container, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
 import './styles/Navbar.css';
 import axios from 'axios';
+import { set } from 'mongoose';
 
 const AppNavbar = () => {
+
+    //for modal: On click of "search" button, modal with search result information should popup
+    const [show, setShow] = useState(false);
+    const [fullScreen, setFullScreen] =useState(true);
+    
+    const handleShow = () => {
+        setShow(true);
+    }
+    //for search
+    
     const [searchTerm, setSearchTerm] = useState("")
+    const [data, setData] = useState(null);
     
     const doSearch = () => {
         console.log(JSON.stringify({
@@ -22,6 +34,7 @@ const AppNavbar = () => {
             url: "/api/search",
         }).then((res) => {
             console.log(res);
+            setData(res);
         }).catch((error) => {
             console.error('Error:', error);
         });
@@ -50,13 +63,26 @@ const AppNavbar = () => {
                     className="me-2"
                     aria-label="Search"
                     />
-                    <Button onClick={doSearch} className='navbuttons' style={{ 
+                    <Button onClick={()=>{doSearch(); handleShow();}} className='navbuttons' style={{ 
                         backgroundColor: "#5d89ba", 
                         border: "2px solid #edf2f4" }}>Search</Button>
                 </Form>
                 </Navbar.Collapse>
+
+
+                <Modal show={show} fullscreen={fullScreen} onHide={() => setShow(false)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Modal</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+
+                    </Modal.Body>
+                </Modal>
+
+
             </Container>
         </Navbar>
+        
 
     )
 }
