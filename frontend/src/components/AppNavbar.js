@@ -28,9 +28,9 @@ const AppNavbar = () => {
     }
 
     return (
-        <Navbar bg="light" expand="lg">
+        <Navbar expand="lg">
             <Container fluid>
-                <Navbar.Brand className='navText' href="#">Startup Matchmaker</Navbar.Brand>
+                <Navbar className='navTextName' href="#">Startup Matchmaker</Navbar>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
                 <Nav
@@ -46,11 +46,13 @@ const AppNavbar = () => {
                     <FormControl
                     onChange={e => setSearchTerm(e.target.value)}
                     type="search"
-                    placeholder="Search"
+                    placeholder="barack obama"
                     className="me-2"
                     aria-label="Search"
                     />
-                    <Button onClick={doSearch} className='navbuttons' variant="outline-secondary">Search</Button>
+                    <Button onClick={doSearch} className='navbuttons' style={{ 
+                        backgroundColor: "#5d89ba", 
+                        border: "2px solid #edf2f4" }}>Search</Button>
                 </Form>
                 </Navbar.Collapse>
             </Container>

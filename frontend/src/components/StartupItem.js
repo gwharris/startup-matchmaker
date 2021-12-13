@@ -7,7 +7,7 @@ const StartupItem = (props) => {
     return (
         <Container className="startupItemContainer">
             {/* <div style={{ backgroundImage: `url(${image})` }}> </div> */}
-            <h1>{props.name}</h1>
+            <h1 className="startupName">{props.name}</h1>
             <p>{props.bio}</p>
             <img src={mascot} className='img-fluid'/>
         </Container>

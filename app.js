@@ -1,6 +1,3 @@
-// current TODO
-// figure out what is causing the issue with startup profile update
-
 const express = require("express"),
     mongoose = require("mongoose"),
     passport = require("passport"),
@@ -284,7 +281,6 @@ function getStartupSkills(userQuery) {
         })
     });
 }
-
 
 //  gets all users with for a particular skill
 function getUsers(skill) {

@@ -61,11 +61,12 @@ const PersonProfile = () => {
                     <div className='personName'>{name}</div>
                     <div className='personTitle'>{title}</div>
                     <div className='personOrganization'>{organization}</div>
+                    <div className='pContactText'>{contact}</div>
                     <Link to="/editpersonprofile">
                         <Button className='pEditProfileButton'>Edit Profile</Button>
                     </Link>
                     <hr className='line'/>
-
+ 
                     <div className='pHeader'>About Me</div>
                     <div className='pBioText'>{bio}</div>
                     <hr className='line'/>
@@ -75,9 +76,9 @@ const PersonProfile = () => {
                         <li key={item}>{item}</li>
                         ))
                     }</div>
-                    <hr className='line'/>
-                    <div className='pHeader'>Contact Me</div>
-                    <div className='pContactText'>{contact}</div>
+                    {/* <hr className='line'/>
+                    <div className='pHeader'>Contact Me</div> */}
+                    
 
                 </Col>
             </Row>
