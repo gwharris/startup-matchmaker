@@ -34,16 +34,23 @@ app.use(function (req, res, next) {
 
 app.use(cors());
 app.options('*', cors());
-app.use(passport.initialize());
-app.use(passport.session());
 
-passport.use(["local-user"], new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+const userPass = new passport.Passport();
+const startupPass = new passport.Passport();
 
-passport.use(["local-startup"], new LocalStrategy(Startup.authenticate()));
-passport.serializeUser(Startup.serializeUser());
-passport.deserializeUser(Startup.deserializeUser());
+app.use(userPass.initialize());
+app.use(userPass.session());
+
+// app.use(startupPass.initialize());
+// app.use(startupPass.session());
+
+userPass.use(["local-user"], new LocalStrategy(User.authenticate()));
+userPass.serializeUser(User.serializeUser());
+userPass.deserializeUser(User.deserializeUser());
+
+startupPass.use(["local-startup"], new LocalStrategy(Startup.authenticate()));
+startupPass.serializeUser(Startup.serializeUser());
+startupPass.deserializeUser(Startup.deserializeUser());
 
 // ALL CLEAR WITH TESTING
 // registers startups
@@ -60,7 +67,7 @@ app.post("/api/registerStartup", function (req, res) {
                 //     redirectTo: './../startupregister',
                 // });
             }
-            passport.authenticate("local-startup"),
+            startupPass.authenticate("local-startup"),
                 function (req, res) {
                     console.log('register request!!!');
                     res.send({
@@ -82,7 +89,7 @@ app.post("/api/registerUser", function (req, res) {
                 console.log(err);
                 // return res.render("register");
             }
-            passport.authenticate("local-user"),
+            userPass.authenticate("local-user"),
                 function (req, res) {
                     console.log('register request!!!');
                     res.send({
@@ -95,7 +102,7 @@ app.post("/api/registerUser", function (req, res) {
 // ALL CLEAR WITH TESTING
 //Handling startup login
 app.post("/api/loginStartup",
-    passport.authenticate('local-startup', {
+    startupPass.authenticate('local-startup', {
         failureRedirect: './../startuplogin',
         failureFlash: 'Invalid username or password.'
     }),
@@ -113,7 +120,7 @@ app.post("/api/loginStartup",
 //Handling user login
 //currently this works if the user can be authorized but not otherwise
 app.post("/api/loginUser",
-    passport.authenticate('local-user', {
+    userPass.authenticate('local-user', {
         failureRedirect: './../personlogin',
         failureFlash: 'Invalid username or password.'
     }),
@@ -141,6 +148,9 @@ app.get("/api/getUserProfile", function (req, res) {
 // // testing still needed
 // //  get a startup's profile information
 app.get("/api/getStartupProfile", function (req, res) {
+    console.log(req);
+    console.log(req.user); //this also doesn't work
+    console.log(req.startup); //this doesn't work
     var myquery = { _id: ObjectId(req.user._id) }; //might need to change user here? test
     Startup.findOne(myquery, function (err, result) {
         if (err) throw err;

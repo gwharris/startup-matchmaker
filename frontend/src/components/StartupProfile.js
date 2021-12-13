@@ -19,7 +19,7 @@ const StartupProfile = () => {
     useEffect(() => {
         // https://api.github.com/users/dleguisamo
 
-        axios.get("/api/getStartupProfile")
+        axios.get("/api/getStartupProfile", {withCredentials: true})
             .then((response) => {
                 console.log(response.data);
                 setStartupName(response.data.name);
@@ -44,23 +44,23 @@ const StartupProfile = () => {
             <StartupNavbar/>
             <Row className='sProfileRow'>
                 <Col className='sProfileCard'>
-                    <div className='startupName'>Test Name</div>
+                    <div className='startupName'>{startupName}</div>
+                    <div className='sContactText'>{startupContact}</div>
                     <Link to="/editstartupprofile">
                         <Button className='sEditProfileButton'>Edit Profile</Button>
                     </Link>
                     <hr className='sLine'/>
                     <div className='sHeader'>About Us</div>
-                    <div className='sBioText'></div>
+                    <div className='sBioText'>{startupBio}</div>
                     <hr className='sLine'/>
                     <div className='sHeader'>Desired Skills</div>
                     <div className='sSkillsText'>{
-                        // skills.map((item) => (
-                        // <li key={item}>{item}</li>
-                        // ))
+                        startupSkills.map((item) => (
+                        <li key={item}>{item}</li>
+                        ))
                     }</div>
                     <hr className='sLine'/>
-                    <div className='sHeader'>Contact Us</div>
-                    <div className='sContactText'></div>
+                    {/* <div className='sHeader'>Contact Us</div> */}
                 </Col>
             </Row>
         </Container>

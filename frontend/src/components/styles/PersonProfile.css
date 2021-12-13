@@ -56,7 +56,7 @@
 
 .pSkillsText{
     font-size: 20px;
-    height: 15vh;
+    height: auto;
     white-space: pre-line;
     overflow-y: auto;
 }

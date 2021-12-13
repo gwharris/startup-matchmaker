@@ -46,7 +46,7 @@ const AppNavbar = () => {
                     <FormControl
                     onChange={e => setSearchTerm(e.target.value)}
                     type="search"
-                    placeholder="barack obama"
+                    placeholder="farming"
                     className="me-2"
                     aria-label="Search"
                     />

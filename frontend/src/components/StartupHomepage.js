@@ -75,7 +75,7 @@ useEffect(() => {
       <StartupNavbar />
       <Row className='phWelcomeRow'>
         <Col className='phWelcomeCol'>
-            <div className='m1'>Welcome, name </div>
+            <div className='m1'>Welcome, {startupName} </div>
             <div className='m2'>Here are your matches based on the skills you are looking for!</div>
         </Col>
       </Row>
