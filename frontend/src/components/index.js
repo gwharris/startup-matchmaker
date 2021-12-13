@@ -13,11 +13,13 @@ import EditPersonProfile from './EditPersonProfile'
 import PersonItem from "./PersonItem"
 import StartupItem from "./StartupItem"
 import PersonHomepage from "./PersonHomepage"
-import StartupHomepage from "./StartupHomepage"
 
+
+import StartupHomepage from "./StartupHomepage"
 import StartupProfile from './StartupProfile'
+import EditStartupProfile from './EditStartupProfile'
 import AppNavbar from './AppNavbar'
 
 
-export { Landing, PersonRegister, StartupRegister, PersonLogin, StartupLogin, PersonProfile, EditPersonProfile, StartupProfile,
-PersonItem, PersonHomepage, StartupItem, StartupHomepage}
+export { Landing, PersonRegister, StartupRegister, PersonLogin, StartupLogin, PersonProfile, EditPersonProfile, StartupProfile, EditStartupProfile,
+PersonItem, PersonHomepage, StartupItem, StartupHomepage, AppNavbar}

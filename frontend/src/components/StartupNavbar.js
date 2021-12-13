@@ -3,7 +3,7 @@ import { Navbar, Container, Nav, NavDropdown, Form, FormControl, Button } from '
 import './styles/Navbar.css';
 import axios from 'axios';
 
-const AppNavbar = () => {
+const StartupNavbar = () => {
     const [searchTerm, setSearchTerm] = useState("")
     
     const doSearch = () => {
@@ -38,15 +38,15 @@ const AppNavbar = () => {
                     style={{ maxHeight: '100px' }}
                     navbarScroll
                 >
-                    <Nav.Link className='navText' href="/personhomepage">Home</Nav.Link>
-                    <Nav.Link className='navText' href="/personprofile">Profile</Nav.Link>
+                    <Nav.Link className='navText' href="/startuphomepage">Home</Nav.Link>
+                    <Nav.Link className='navText' href="/startupprofile">Profile</Nav.Link>
 
                 </Nav>
                 <Form className="d-flex">
                     <FormControl
                     onChange={e => setSearchTerm(e.target.value)}
                     type="search"
-                    placeholder="farming"
+                    placeholder="barack obama"
                     className="me-2"
                     aria-label="Search"
                     />
@@ -61,7 +61,7 @@ const AppNavbar = () => {
     )
 }
 
-export default AppNavbar
+export default StartupNavbar
 
 
 // import React, { useState } from "react";

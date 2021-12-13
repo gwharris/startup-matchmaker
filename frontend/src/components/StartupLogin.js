@@ -3,10 +3,11 @@ import './styles/login.css';
 import { Button, Container, Row, Col, Form, FloatingLabel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
+import BgImage from "./styles/bg_sm.png";
 
 const StartupLogin = () => {
-    const [loginStartupEmail, setLoginStartupEmail ] = useState("")
-    const [ startupLoginPassword, setStartupLoginPassword ] = useState("")
+    const [loginStartupEmail, setLoginStartupEmail] = useState("")
+    const [startupLoginPassword, setStartupLoginPassword] = useState("")
     const doStartupLogin = () => {
         console.log(JSON.stringify({
             startup_email: loginStartupEmail,
@@ -36,7 +37,7 @@ const StartupLogin = () => {
         <Container className='lgContainer'>
             <Row className='row'>
                 <Col className='LGleftCol'>
-                    <div className="logIn">Log In As a Startup</div>
+                    <div className="logIn">Startup Log In</div>
                     <Form>
                         <Form.Group className="emailForm">
                             <FloatingLabel label="email">
@@ -54,16 +55,19 @@ const StartupLogin = () => {
 
                     </Form>
                     <Link to="/startupregister">
-                        <Button className="toRegister">Register</Button>
+                        <Button className="toRegister">register</Button>
                     </Link>
 
                 </Col>
                 <Col className='LGrightCol'>
+                    <div className='greetingImg'>
+                        <img src={BgImage} />
+                    </div>
                     <div className='loginGreeting1'>Meet your match.</div>
                     <div className='loginGreeting2'>Find talented people to help grow your startup</div>
                 </Col>
             </Row>
-    </Container>
+        </Container>
 
 
 

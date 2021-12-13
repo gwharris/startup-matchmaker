@@ -32,7 +32,7 @@ const EditPersonProfile = () => {
     const [title, setTitle] = useState(null);
     const [bio, setBio] = useState(null);
     const [contact, setContact] = useState(null);
-    const [skills, setSkills] = useState([]); // change [] to null
+    const [skills, setSkills] = useState([{value:null, label:null}]); // change [] to null
 
     //on mount, data for the user that is logged in should be visible in editable forms
     const [error, setError] = useState(null);
@@ -49,7 +49,7 @@ const EditPersonProfile = () => {
                 setOrganization(response.data.organization);
                 setBio(response.data.bio);
                 setContact(response.data.contact);
-                setSkills(response.data.skills);
+                //setSkills(response.data.skills);
             })
             .catch((error) => {
                 console.error("Could not fetch data: ", error);
@@ -74,9 +74,9 @@ const EditPersonProfile = () => {
     //   }
 
     // Method to test that skills are being stored as array in state....it works!
-    // const consoleLogSkills = () => {
-    //     console.log(skills);
-    // }
+    const consoleLogSkills = () => {
+        console.log(skills);
+    }
 
     // method to save changes to user profile to db
     const editProfile = () => {
@@ -146,11 +146,11 @@ const EditPersonProfile = () => {
                         <Select
                             className='pSkillSelectBorder'
                             options={personSkills}
-                            value={
-                                skills.map((item) => (
-                                    <li key={item}>{item}</li>
-                                ))
-                            }
+                            // value={skills
+                            //     // skills.map((item) => (
+                            //     //     <option value={item.value}>{item.label}</option>
+                            //     // ))
+                            // }
                             placeholder='Select skills here'
                             isMulti
                             autoFocus

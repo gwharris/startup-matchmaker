@@ -1,10 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
 
 .bg-bgcol {
-    background-color: #edf2f4;
+    background-color: #5d89ba;
+}
+
+.navTextName {
+    color: #edf2f4;
+    font-family: 'Josefin Sans', sans-serif !important;
+    font-size: 1.5rem;
+    padding-left: 10px;
+    padding-right: 15px;
+    font-weight: bold;
 }
 
 .navText {
+    color: #edf2f4;
     font-family: 'Josefin Sans', sans-serif !important;
+    font-size: 1.2rem;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.navbar{
+    background-color: #5d89ba;
+}
 
+.navbar-light .navbar-nav .nav-link {
+    color: #edf2f4;
 }

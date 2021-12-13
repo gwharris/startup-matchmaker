@@ -1,6 +1,3 @@
-// current TODO
-// figure out what is causing the issue with startup profile update
-
 const express = require("express"),
     mongoose = require("mongoose"),
     passport = require("passport"),
@@ -37,16 +34,23 @@ app.use(function (req, res, next) {
 
 app.use(cors());
 app.options('*', cors());
-app.use(passport.initialize());
-app.use(passport.session());
 
-passport.use(["local-user"], new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+const userPass = new passport.Passport();
+const startupPass = new passport.Passport();
 
-passport.use(["local-startup"], new LocalStrategy(Startup.authenticate()));
-passport.serializeUser(Startup.serializeUser());
-passport.deserializeUser(Startup.deserializeUser());
+app.use(userPass.initialize());
+app.use(userPass.session());
+
+// app.use(startupPass.initialize());
+// app.use(startupPass.session());
+
+userPass.use(["local-user"], new LocalStrategy(User.authenticate()));
+userPass.serializeUser(User.serializeUser());
+userPass.deserializeUser(User.deserializeUser());
+
+startupPass.use(["local-startup"], new LocalStrategy(Startup.authenticate()));
+startupPass.serializeUser(Startup.serializeUser());
+startupPass.deserializeUser(Startup.deserializeUser());
 
 // ALL CLEAR WITH TESTING
 // registers startups
@@ -63,7 +67,7 @@ app.post("/api/registerStartup", function (req, res) {
                 //     redirectTo: './../startupregister',
                 // });
             }
-            passport.authenticate("local-startup"),
+            startupPass.authenticate("local-startup"),
                 function (req, res) {
                     console.log('register request!!!');
                     res.send({
@@ -85,7 +89,7 @@ app.post("/api/registerUser", function (req, res) {
                 console.log(err);
                 // return res.render("register");
             }
-            passport.authenticate("local-user"),
+            userPass.authenticate("local-user"),
                 function (req, res) {
                     console.log('register request!!!');
                     res.send({
@@ -98,7 +102,7 @@ app.post("/api/registerUser", function (req, res) {
 // ALL CLEAR WITH TESTING
 //Handling startup login
 app.post("/api/loginStartup",
-    passport.authenticate('local-startup', {
+    startupPass.authenticate('local-startup', {
         failureRedirect: './../startuplogin',
         failureFlash: 'Invalid username or password.'
     }),
@@ -116,7 +120,7 @@ app.post("/api/loginStartup",
 //Handling user login
 //currently this works if the user can be authorized but not otherwise
 app.post("/api/loginUser",
-    passport.authenticate('local-user', {
+    userPass.authenticate('local-user', {
         failureRedirect: './../personlogin',
         failureFlash: 'Invalid username or password.'
     }),
@@ -144,6 +148,9 @@ app.get("/api/getUserProfile", function (req, res) {
 // // testing still needed
 // //  get a startup's profile information
 app.get("/api/getStartupProfile", function (req, res) {
+    console.log(req);
+    console.log(req.user); //this also doesn't work
+    console.log(req.startup); //this doesn't work
     var myquery = { _id: ObjectId(req.user._id) }; //might need to change user here? test
     Startup.findOne(myquery, function (err, result) {
         if (err) throw err;
@@ -156,9 +163,9 @@ app.get("/api/getStartupProfile", function (req, res) {
 app.post("/api/editPersonProfile", function (req, res) {
     // console.log(req);
     const myquery = { _id: ObjectId(req.user._id) };
-    const personSkills = req.body.skills.map(function(item) {
+    const personSkills = req.body.skills.map(function (item) {
         return item['label'];
-      });
+    });
     User.updateOne(myquery,
         {
             name: req.body.name,
@@ -172,7 +179,7 @@ app.post("/api/editPersonProfile", function (req, res) {
             if (err) throw err;
             res.json(result);
         });
-    
+
 });
 
 // testing still needed
@@ -192,103 +199,127 @@ app.post("/api/editStartupProfile", function (req, res) {
         });
 });
 
-// currently never returns anything even when search is exact
-// more testing/refinement needed
-// search for user-side (returns startup profiles as result)
-app.post("/api/searchUsers", function (req, res) {
-    // const searchTerm = req.body.term;
-    // Startup.find(searchTerm, function (err, result) {
-    //     if (err) throw err;
-    //     console.log('result: ', result);
-    //     res.json(result);
-    // });
-    console.log(req.body);
-    Startup
-        .find(
-            { $text: { $search: req.body.term } },
-            { score: { $meta: "textScore" } }
-        )
-        .sort({ score: { $meta: 'textScore' } })
-        .exec(function (err, result) {
-            // callback
-            if (err) throw err;
-            console.log(result);
-            res.json(result);
-        });
+// search endpoint helper
+function searchStartups(term) {
+    return new Promise(resolve => {
+        Startup
+            .find(
+                { $text: { $search: term } },
+                { score: { $meta: "textScore" } }
+            )
+            .sort({ score: { $meta: 'textScore' } })
+            .exec(function (err, result) {
+                // callback
+                if (err) throw err;
+                console.log('search result is: ', result);
+                resolve(result);
+            });
+    });
+}
+
+// search endpoint helper
+function searchUsers(term) {
+    return new Promise(resolve => {
+        User
+            .find(
+                { $text: { $search: term } },
+                { score: { $meta: "textScore" } }
+            )
+            .sort({ score: { $meta: 'textScore' } })
+            .exec(function (err, result) {
+                // callback
+                if (err) throw err;
+                console.log(result);
+                resolve(result);
+            });
+    });
+}
+
+// ALL CLEAR WITH TESTING
+// search for everyone
+app.post("/api/search", async function (req, res) {
+    let userResults = await searchUsers(req.body.term);
+    let startupResults = await searchStartups(req.body.term);
+    let allResults = userResults.concat(startupResults);
+    res.json(allResults);
 })
 
-// currently never returns anything even when search is exact
-// more testing/refinement needed
-// search for startup-side (returns user profiles as a result)
-app.post("/api/searchStartups", function(req, res) {
-    User
-        .find(
-            { $text: { $search: req.body.term } },
-            { score: { $meta: "textScore" } }
-        )
-        .sort({ score: { $meta: 'textScore' } })
-        .exec(function (err, result) {
-            // callback
+// gets user skills
+function getUserSkills(userQuery) {
+    return new Promise(resolve => {
+        User.findOne(userQuery, 'skills', { '_id': false }, function (err, result) {
             if (err) throw err;
-            console.log(result);
-            res.json(result);
-        });
-})
+            resolve(result.skills);
+        })
+    });
+}
 
-// test when user/startup data has been populated
+//  gets all startups looking for a particular skill
+function getStartups(skill) {
+    return new Promise(resolve => {
+        Startup.find({
+            skills: skill
+        }, function (err, result) {
+            if (err) throw err;
+            resolve(result);
+        });
+    });
+}
+
+// ALL CLEAR WITH TESTING
 // get a user's matches and send to frontend
-app.get("/api/getPersonMatches", function (req, res) {
+app.get("/api/getPersonMatches", async function (req, res) {
     // initialize queries
     const userQuery = { _id: ObjectId(req.user._id) };
-    let skillsQuery = {};
     // get the skills listed by the user
-    User.findOne(userQuery, 'skills', { '_id': false }, function (err, result) { //'skills' asks it to only return skills
-        if (err) throw err;
-        skillsQuery = { $text: { $search: result } };
-        console.log('skillsQuery: ', skillsQuery);
-    });
+    let userSkills = await getUserSkills(userQuery);
+    let allStartups = [];
     // search for startups with those skills listed
-    Startup.find(skillsQuery, function (err, result) {
-        if (err) throw err;
-        console.log('result: ', result);
-        res.json(result);
-    });
+    for (let i = 0; i < userSkills.length; i++) {
+        allStartups = allStartups.concat(await getStartups(userSkills[i]));
+        console.log(allStartups);
+    }
+    res.json(allStartups);
 });
+
+// get list of skills desired by startup
+function getStartupSkills(userQuery) {
+    return new Promise(resolve => {
+        Startup.findOne(userQuery, 'skills', { '_id': false }, function (err, result) {
+            if (err) throw err;
+            resolve(result.skills);
+        })
+    });
+}
+
+//  gets all users with for a particular skill
+function getUsers(skill) {
+    return new Promise(resolve => {
+        User.find({
+            skills: skill
+        }, function (err, result) {
+            if (err) throw err;
+            resolve(result);
+        });
+    });
+}
 
 // test when user/startup data has been populated
 // get a startup's matches and send to frontend
-app.get("/api/getStartupMatches", function(req, res) {
+app.get("/api/getStartupMatches", async function (req, res) {
     // initialize queries
+    //still not really sure about the user v startup thing here, double check
     const userQuery = { _id: ObjectId(req.user._id) };
-    let skillsQuery = {};
-    // get the skills listed by the user
-    Startup.findOne(userQuery, 'skills', { '_id': false }, function (err, result) { //'skills' asks it to only return skills
-        if (err) throw err;
-        skillsQuery = { $text: { $search: result } };
-        console.log('skillsQuery: ', skillsQuery);
-    });
+    // get the skills listed by the startup
+    let startupSkills = await getStartupSkills(userQuery);
+    let allUsers = [];
     // search for startups with those skills listed
-    User.find(skillsQuery, function (err, result) {
-        if (err) throw err;
-        console.log('result: ', result);
-        res.json(result);
-    });
+    for (let i = 0; i < startupSkills.length; i++) {
+        allUsers = allUsers.concat(await getUsers(startupSkills[i]));
+        console.log(allUsers);
+    }
+    res.json(allUsers);
 });
-
-// logic: 
-// 1. take a startup's ID and get its desired skills
-// 2. find a way to search for all users with each of those skills
-// 3. return above users
-
-// WIP status
-// app.get("/api/getStartupMatches", function (req, res) {
-//     var myquery = { _id: ObjectId(req.user._id) }; //might need to change user here? test
-//     Startup.findOne(myquery, 'skills', function (err, result) { //'skills' asks it to only return skills
-//         if (err) throw err;
-//         // res.json(result);
-//         console.log(result);
-//     });
-// });
 
 //Handling user logout
 // app.get("/api/logout", function (req, res) {
