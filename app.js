@@ -279,7 +279,8 @@ app.get("/api/getPersonMatches", async function (req, res) {
         allStartups = allStartups.concat(await getStartups(userSkills[i]));
         console.log(allStartups);
     }
-    res.json(allStartups);
+    const unique = [... new Set(allStartups.map(startup => startup))];
+    res.json(unique);
 });
 
 // get list of skills desired by startup
@@ -318,7 +319,8 @@ app.get("/api/getStartupMatches", async function (req, res) {
         allUsers = allUsers.concat(await getUsers(startupSkills[i]));
         console.log(allUsers);
     }
-    res.json(allUsers);
+    const unique = [... new Set(allUsers.map(user => user))];
+    res.json(unique);
 });
 
 //Handling user logout
