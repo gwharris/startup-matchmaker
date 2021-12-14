@@ -34,7 +34,7 @@
     color: #edf2f4;
 }
 .searchModal .modal-body {
-
+    
     background-color: #5d89ba !important;
     font-family: 'Josefin Sans', sans-serif !important;
     color: #edf2f4;
@@ -42,12 +42,14 @@
 }
 
 .srchModalCard {
+    margin-top: 10vh;
     display: flex;
     flex-direction: column;
     background-color: #edf2f4;
-    max-width: 60vw;
-    width: 60vw;
-    max-height: 60vh;
+    max-width: 80vw;
+    width: 80vw;
+    max-height: 90vh;
+    height: 90vh;
     color: black;
     border-radius: 10px;
 }
@@ -63,4 +65,36 @@
     align-items: center;
     justify-content: center;
     
+}
+
+.modalName{
+    font-size: 35px;
+}
+.modalHeader {
+    font-size: 30px;
+}
+
+.modalBioText{
+    
+    font-size: 20px;
+    height: 25vh;
+
+    white-space: pre-line;
+    overflow-y: auto;
+}
+
+.modalContactText {
+    font-size: 20px;
+    height: 12vh;
+
+    white-space: pre-line;
+    overflow-y: auto;
+}
+
+.modalSkillsText {
+    font-size: 20px;
+    height: auto;
+    white-space: pre-line;
+    overflow-y: auto;
+    padding-bottom: 30px;
 }
