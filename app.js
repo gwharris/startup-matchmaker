@@ -112,7 +112,7 @@ app.post("/api/loginStartup",
             // currently broken because matches does not exist but
             // should be resolved soon
             // VERY TEMP: rerouting to startup profile to test
-            redirectTo: './../startupprofile',
+            redirectTo: './../startuphomepage',
         });
     });
 
@@ -129,7 +129,7 @@ app.post("/api/loginUser",
         res.send({
             // currently broken because matches does not exist but
             // should be resolved soon
-            redirectTo: './../personprofile',
+            redirectTo: './../personhomepage',
         });
     });
 

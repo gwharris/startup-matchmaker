@@ -1,10 +1,51 @@
 import React, {useState} from 'react';
-import { Navbar, Container, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
+import { Navbar, Container, Row, Nav, NavDropdown, Form, FormControl, Button, Spinner } from 'react-bootstrap';
 import './styles/Navbar.css';
 import axios from 'axios';
 
 const StartupNavbar = () => {
+    const [show, setShow] = useState(false);
     const [searchTerm, setSearchTerm] = useState("")
+    const [searchData, setSearchData] = useState(null);
+
+    const handleShow = () => {
+        setShow(true);
+    }
+
+    const renderResult = () => {
+        if (searchData == null) {
+            console.log('renderResult: There is no data in "searchData"')
+
+            return(<Spinner animation='grow'/>);
+        }
+        else {
+            console.log('there is data in searchData! see prev console log');
+            console.log("data",searchData.data[0].name)
+        
+            return (
+                <Container className='srchModalContainer'>
+                    <Row className='srchModalCard'>
+                        <div className='modalName'>{searchData.data[0].name}</div>
+                        <hr/>
+                        <div className='modalHeader'>About</div>
+                        <div className='modalBioText'>{searchData.data[0].bio}</div>
+                        <div className='modalHeader'>Contact</div>
+                        <div className='modalContactText'>{searchData.data[0].contact}</div>
+                        <div className='modalHeader'>skills</div>
+                        <div className='modalSkillsText'>{
+                            searchData.data[0].skills.map((item) => (
+                                <li key={item}>{item}</li>
+                            )
+                            )
+
+                        }
+                        </div>
+                    </Row>
+                </Container>
+            )
+        }
+
+    }
     
     const doSearch = () => {
         console.log(JSON.stringify({
@@ -22,6 +63,7 @@ const StartupNavbar = () => {
             url: "/api/search",
         }).then((res) => {
             console.log(res);
+            setSearchData(res);
         }).catch((error) => {
             console.error('Error:', error);
         });
@@ -50,7 +92,7 @@ const StartupNavbar = () => {
                     className="me-2"
                     aria-label="Search"
                     />
-                    <Button onClick={doSearch} className='navbuttons' style={{ 
+                    <Button onClick={()=>{doSearch(); handleShow();}} className='navbuttons' style={{ 
                         backgroundColor: "#5d89ba", 
                         border: "2px solid #edf2f4" }}>Search</Button>
                 </Form>

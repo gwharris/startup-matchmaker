@@ -36,7 +36,7 @@ const AppNavbar = () => {
                         <div className='modalBioText'>{searchData.data[0].bio}</div>
                         <div className='modalHeader'>Contact</div>
                         <div className='modalContactText'>{searchData.data[0].contact}</div>
-                        <div className='modalHeader'>skills</div>
+                        <div className='modalHeader'>Skills</div>
                         <div className='modalSkillsText'>{
                             searchData.data[0].skills.map((item) => (
                                 <li key={item}>{item}</li>
