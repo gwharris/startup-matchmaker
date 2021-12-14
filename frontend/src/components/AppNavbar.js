@@ -1,22 +1,50 @@
 import React, {useState} from 'react';
-import { Modal, Navbar, Container, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
+import { Modal, Navbar, Container, Nav, NavDropdown, Form, FormControl, Button, Spinner, Row } from 'react-bootstrap';
 import './styles/Navbar.css';
 import axios from 'axios';
 import { set } from 'mongoose';
+import { render } from 'ejs';
 
 const AppNavbar = () => {
 
     //for modal: On click of "search" button, modal with search result information should popup
     const [show, setShow] = useState(false);
     const [fullScreen, setFullScreen] =useState(true);
-    
+    const [searchTerm, setSearchTerm] = useState("")
+    const [searchData, setSearchData] = useState(null);
+
     const handleShow = () => {
         setShow(true);
     }
+
+    const renderResult = () => {
+        if (searchData == null) {
+            console.log('renderResult: There is no data in "searchData"')
+
+            return(<Spinner animation='grow'/>);
+        }
+        else {
+            console.log('there is data in searchData! see prev console log');
+            console.log("data",searchData.data[0].name)
+        
+            return (
+                <Container className='srchModalContainer'>
+                    <Row className='srchModalCard'>
+                        <div>name</div>
+                        <hr/>
+                        <div className='modalHeader'>About</div>
+                        <div>contact</div>
+                        <div>bio</div>
+                        <skills>skills</skills>
+                    </Row>
+                </Container>
+            )
+        }
+
+    }
     //for search
     
-    const [searchTerm, setSearchTerm] = useState("")
-    const [data, setData] = useState(null);
+
     
     const doSearch = () => {
         console.log(JSON.stringify({
@@ -34,7 +62,7 @@ const AppNavbar = () => {
             url: "/api/search",
         }).then((res) => {
             console.log(res);
-            setData(res);
+            setSearchData(res);
         }).catch((error) => {
             console.error('Error:', error);
         });
@@ -69,13 +97,13 @@ const AppNavbar = () => {
                 </Form>
                 </Navbar.Collapse>
 
-
-                <Modal show={show} fullscreen={fullScreen} onHide={() => setShow(false)}>
+    
+                <Modal className='searchModal' show={show} fullscreen={fullScreen} onHide={() => setShow(false)}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Modal</Modal.Title>
+                        <Modal.Title>Search results for "{searchTerm}"</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-
+                        <div>{renderResult()}</div>
                     </Modal.Body>
                 </Modal>
 
