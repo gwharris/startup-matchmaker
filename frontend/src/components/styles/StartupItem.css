@@ -18,3 +18,7 @@
     transition: 0.25s ease-in;
     cursor: pointer;
   }
+
+.img-fluid {
+    width: 100px;
+}
